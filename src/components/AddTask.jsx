@@ -84,7 +84,7 @@ export default function AddTask({ onAddTask }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-navy-light border border-navy-light rounded-lg p-4 space-y-3.5 font-mono">
+    <form onSubmit={handleSubmit} className="bg-navy-light border border-navy-light rounded-lg p-4 space-y-3.5 font-sans">
       <div className="flex items-center justify-between">
         <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
           <Plus className="w-3.5 h-3.5 text-orange" />

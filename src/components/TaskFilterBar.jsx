@@ -13,7 +13,7 @@ export default function TaskFilterBar({
   const hasActiveFilters = searchQuery.trim() !== '' || selectedCategory !== 'All' || selectedPriority !== 'All';
 
   return (
-    <div className="bg-navy-light border border-navy-light rounded-lg p-2.5 space-y-2 sm:space-y-0 sm:flex sm:items-center sm:gap-2.5 font-mono">
+    <div className="bg-navy-light border border-navy-light rounded-lg p-2.5 space-y-2 sm:space-y-0 sm:flex sm:items-center sm:gap-2.5 font-sans">
       <div className="relative flex-1">
         <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
         <input

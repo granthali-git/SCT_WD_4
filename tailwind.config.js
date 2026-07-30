@@ -6,6 +6,11 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        serif: ['"Playfair Display"', 'serif'],
+        sans: ['Inter', 'sans-serif'],
+        heading: ['"Playfair Display"', 'serif'],
+      },
       colors: {
         navy: {
           DEFAULT: '#1A1235',

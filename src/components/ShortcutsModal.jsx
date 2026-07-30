@@ -22,7 +22,7 @@ export default function ShortcutsModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/80 backdrop-blur-md font-mono">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy/80 backdrop-blur-md font-sans">
       <div
         className="bg-navy-card border border-navy-light rounded-xl shadow-2xl shadow-black/60 max-w-md w-full p-4 space-y-3 relative transition-all"
         onClick={(e) => e.stopPropagation()}
@@ -33,7 +33,7 @@ export default function ShortcutsModal({ isOpen, onClose }) {
             <div className="p-1.5 bg-orange/10 border border-orange/20 text-orange rounded-lg">
               <Keyboard className="w-4 h-4" />
             </div>
-            <h3 className="font-sans font-bold text-white text-sm">Keyboard Shortcuts</h3>
+            <h3 className="font-serif font-bold text-white text-sm">Keyboard Shortcuts</h3>
           </div>
 
           <button

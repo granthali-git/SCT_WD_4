@@ -371,10 +371,10 @@ function App() {
               <Zap className="w-5 h-5 fill-current" />
             </div>
             <div>
-              <h1 className="font-sans font-bold text-xl text-white tracking-tight leading-none">
+              <h1 className="font-serif font-bold text-xl text-white tracking-tight leading-none">
                 TaskFlow
               </h1>
-              <p className="text-slate-400 text-xs mt-0.5 font-mono">Corporate Task Manager</p>
+              <p className="text-slate-400 text-xs mt-0.5">Corporate Task Manager</p>
             </div>
           </div>
 
@@ -386,7 +386,7 @@ function App() {
               className={`px-3.5 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${
                 headerTab === 'tasks'
                   ? 'bg-orange text-white shadow-sm font-sans'
-                  : 'text-slate-300 hover:text-white font-mono'
+                  : 'text-slate-300 hover:text-white font-sans'
               }`}
             >
               Tasks
@@ -397,7 +397,7 @@ function App() {
               className={`px-3.5 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${
                 headerTab === 'analytics'
                   ? 'bg-orange text-white shadow-sm font-sans'
-                  : 'text-slate-300 hover:text-white font-mono'
+                  : 'text-slate-300 hover:text-white font-sans'
               }`}
             >
               Analytics
@@ -406,7 +406,7 @@ function App() {
 
           {/* Right: Stat Badges & Settings */}
           <div className="flex items-center gap-2">
-            <div className="hidden sm:flex items-center gap-2 font-mono text-xs bg-navy/40 px-3 py-1.5 rounded-lg border border-navy-light">
+            <div className="hidden sm:flex items-center gap-2 font-sans text-xs bg-navy/40 px-3 py-1.5 rounded-lg border border-navy-light">
               <span className="text-orange-light font-semibold">{totalPending} pending</span>
               <div className="border-r border-navy-light h-3.5 mx-0.5" />
               <span className="text-emerald-400 font-semibold">{totalCompleted} completed</span>
@@ -430,10 +430,10 @@ function App() {
       <main className="w-full max-w-2xl px-3 sm:px-6 pt-6 sm:pt-8 space-y-5">
         {/* 2. GREETING SECTION */}
         <section className="space-y-1 text-left">
-          <h2 className="font-sans font-bold text-2xl sm:text-3xl text-white tracking-tight">
+          <h2 className="font-serif font-bold text-2xl sm:text-3xl text-white tracking-tight">
             {greeting.text} {greeting.emoji}
           </h2>
-          <p className="text-slate-400 text-xs sm:text-sm font-mono">
+          <p className="text-slate-400 text-xs sm:text-sm font-sans">
             You have <span className="text-orange-light font-semibold">{todayPendingCount} tasks pending today</span> ({todayOverdueCount} overdue).
           </p>
         </section>
@@ -442,9 +442,9 @@ function App() {
         <div className="bg-navy-card border border-navy-light shadow-2xl shadow-black/50 rounded-xl p-4 sm:p-6 space-y-5 animate-page-fade-in">
           {headerTab === 'analytics' ? (
             /* Analytics View */
-            <div className="space-y-4 font-mono text-white">
+            <div className="space-y-4 font-sans text-white">
               <div className="flex items-center justify-between border-b border-navy-light pb-3">
-                <h3 className="font-sans font-bold text-lg text-white flex items-center gap-2">
+                <h3 className="font-serif font-bold text-lg text-white flex items-center gap-2">
                   <BarChart3 className="w-5 h-5 text-orange" />
                   Productivity Analytics
                 </h3>
@@ -490,7 +490,7 @@ function App() {
               {/* Search, Filters & Smart Date Tabs */}
               <section className="space-y-3 pt-1">
                 <div className="flex items-center justify-between">
-                  <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 font-mono">Filter & Organize</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 font-sans">Filter & Organize</p>
                 </div>
 
                 <TaskFilterBar

@@ -9,7 +9,7 @@ export default function TaskTabs({ activeTab, onTabChange, counts }) {
   ];
 
   return (
-    <div className="flex items-center gap-1.5 overflow-x-auto pb-1 font-mono">
+    <div className="flex items-center gap-1.5 overflow-x-auto pb-1 font-sans">
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
         return (

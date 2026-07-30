@@ -204,7 +204,7 @@ export default function TaskList({
   // Render Empty State
   if (tasks.length === 0) {
     return (
-      <div className="bg-navy-light border border-dashed border-navy-light rounded-lg p-8 sm:p-10 flex flex-col items-center justify-center text-center font-mono">
+      <div className="bg-navy-light border border-dashed border-navy-light rounded-lg p-8 sm:p-10 flex flex-col items-center justify-center text-center font-sans">
         <div className="p-3 bg-navy-card rounded-lg border border-navy-light mb-3 shadow-inner">
           {totalTasksCount === 0 ? (
             <Inbox className="w-6 h-6 text-slate-400" />
@@ -212,7 +212,7 @@ export default function TaskList({
             <CheckCircle2 className="w-6 h-6 text-emerald-400" />
           )}
         </div>
-        <h3 className="font-semibold text-white text-sm">
+        <h3 className="font-serif font-bold text-white text-sm">
           {totalTasksCount === 0 ? 'No tasks yet' : 'All tasks completed'}
         </h3>
         <p className="text-xs text-slate-400 mt-1 max-w-xs">
@@ -225,7 +225,7 @@ export default function TaskList({
   }
 
   return (
-    <div className="space-y-2.5 font-mono">
+    <div className="space-y-2.5 font-sans">
       {tasks.map((task, index) => {
         const isEditing = editingTaskId === task.id;
         const isDeleting = deletingTaskId === task.id;

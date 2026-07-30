@@ -12,13 +12,13 @@ export default function TaskProgress({ todayTasks, totalTasksCount, streakCount 
   }
 
   return (
-    <div className="bg-navy-light border border-navy-light rounded-lg p-3.5 space-y-2.5 transition-all font-mono">
+    <div className="bg-navy-light border border-navy-light rounded-lg p-3.5 space-y-2.5 transition-all font-sans">
       {isAllTodayDone ? (
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-3 transition-all">
           <div className="flex items-center gap-2.5">
             <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
             <div>
-              <h3 className="font-semibold text-white text-xs sm:text-sm">
+              <h3 className="font-serif font-bold text-white text-xs sm:text-sm">
                 All daily tasks completed
               </h3>
               <p className="text-[11px] text-slate-400 mt-0.5">
@@ -36,7 +36,7 @@ export default function TaskProgress({ todayTasks, totalTasksCount, streakCount 
         </div>
       ) : (
         <>
-          <div className="flex items-center justify-between text-xs gap-2 flex-wrap font-mono">
+          <div className="flex items-center justify-between text-xs gap-2 flex-wrap font-sans">
             <div className="flex items-center gap-2">
               <span className="font-semibold uppercase tracking-wider text-slate-400 text-[11px]">
                 Daily Progress

@@ -18,8 +18,8 @@ import {
 } from 'lucide-react';
 
 const PRIORITIES = [
-  { name: 'Low', badge: '3', badgeBg: 'bg-sky-soft text-sky-deep', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-soft shadow-xs', idleBg: 'bg-paper-card text-ink border border-sky-soft hover:bg-sky-light' },
-  { name: 'Medium', badge: '2', badgeBg: 'bg-sky text-white', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-soft shadow-xs', idleBg: 'bg-paper-card text-ink border border-sky-soft hover:bg-sky-light' },
+  { name: 'Low', badge: '3', badgeBg: 'bg-sky-soft text-sky-deep border border-sky-soft', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-soft shadow-xs', idleBg: 'bg-paper-card text-ink border border-sky-soft hover:bg-sky-light' },
+  { name: 'Medium', badge: '2', badgeBg: 'bg-sky-main text-white', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-soft shadow-xs', idleBg: 'bg-paper-card text-ink border border-sky-soft hover:bg-sky-light' },
   { name: 'High', badge: '1', badgeBg: 'bg-sky-deep text-white', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-soft shadow-xs', idleBg: 'bg-paper-card text-ink border border-sky-soft hover:bg-sky-light' },
 ];
 
@@ -235,7 +235,7 @@ export default function TaskList({
           return (
             <div
               key={task.id}
-              className="bg-paper-card border-2 border-sky-soft rounded-2xl p-4 space-y-3.5 shadow-xs"
+              className="bg-paper-card border-2 border-sky-soft rounded-2xl p-4 space-y-3.5 shadow-sm"
             >
               <div className="bg-sky-light text-sky-deep rounded-lg px-3 py-1 font-bold text-xs inline-flex items-center gap-1.5 border border-sky-soft">
                 <Pencil className="w-3.5 h-3.5 text-sky-deep" />
@@ -247,7 +247,7 @@ export default function TaskList({
                 type="text"
                 value={editFormData.title}
                 onChange={(e) => setEditFormData({ ...editFormData, title: e.target.value })}
-                className="w-full bg-paper-card border border-sky-soft rounded-xl px-3.5 py-2 text-xs text-ink font-semibold focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30"
+                className="w-full bg-paper-card border-2 border-sky-soft rounded-xl px-3.5 py-2 text-xs text-ink font-semibold focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30"
               />
 
               {/* Edit Subtasks Checklist */}
@@ -405,19 +405,19 @@ export default function TaskList({
             onDragOver={(e) => handleDragOver(e, index)}
             onDragLeave={() => handleDragLeave(index)}
             onDrop={(e) => handleDrop(e, index)}
-            className={`relative bg-paper-card rounded-xl border-b-2 border-dashed border-sky-soft pb-3.5 shadow-xs hover:border-sky-deep/60 transition-all duration-200 ${
+            className={`relative rounded-xl border-2 border-sky-soft p-3.5 shadow-xs hover:border-sky-deep transition-all duration-200 ${
               isDeleting
                 ? 'opacity-0 scale-95 pointer-events-none'
                 : isDragging
                 ? 'opacity-40 border-dashed border-2 border-sky-deep bg-sky-light'
                 : isDragOver
-                ? 'border-t-2 border-t-sky-deep bg-sky-light/40 shadow-xs'
+                ? 'border-t-4 border-t-sky-deep bg-sky-light/40 shadow-xs'
                 : task.completed
-                ? 'group opacity-60 bg-paper-card/70'
-                : 'group'
+                ? 'bg-sky-light/30 border-2 border-sky-soft opacity-75'
+                : 'bg-paper-card border-2 border-sky-soft'
             }`}
           >
-            <div className="flex items-start sm:items-center justify-between gap-3 pt-1.5">
+            <div className="flex items-start sm:items-center justify-between gap-3">
               {/* Left Side: Drag Handle, Soft Square Checkbox & Task Details */}
               <div className="flex items-start sm:items-center gap-3 flex-1 min-w-0">
                 {/* Drag Handle Icon */}
@@ -438,7 +438,7 @@ export default function TaskList({
                   type="button"
                   onClick={() => onToggleCompleted(task.id)}
                   aria-label={task.completed ? `Mark "${task.title}" as incomplete` : `Mark "${task.title}" as complete`}
-                  className={`mt-0.5 sm:mt-0 flex-shrink-0 w-5 h-5 rounded-md border-2 transition-all duration-200 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-sky/30 cursor-pointer ${
+                  className={`mt-0.5 sm:mt-0 flex-shrink-0 w-5 h-5 rounded-md border-2 transition-all duration-200 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-sky/30 cursor-pointer shadow-xs ${
                     task.completed
                       ? 'bg-sky-deep border-sky-deep text-white animate-pop'
                       : 'border-sky-deep bg-paper-card hover:bg-sky-light active:scale-95'
@@ -454,7 +454,7 @@ export default function TaskList({
                     <div className="flex items-center gap-2">
                       {/* Priority Numbered Circular Badge */}
                       <span
-                        className={`w-4 h-4 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-bold ${prioStyle.badgeBg}`}
+                        className={`w-5 h-5 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-bold shadow-xs ${prioStyle.badgeBg}`}
                         title={`Priority: ${task.priority}`}
                       >
                         {prioStyle.badge}
@@ -463,7 +463,7 @@ export default function TaskList({
                       <h3
                         className={`text-xs sm:text-sm select-none transition-all ${
                           task.completed
-                            ? 'line-through text-ink/50 font-normal'
+                            ? 'line-through text-ink/60 font-medium'
                             : 'text-ink font-bold'
                         }`}
                       >
@@ -536,7 +536,7 @@ export default function TaskList({
 
             {/* Subtask Progress & Expand Button */}
             {totalSubtasks > 0 && (
-              <div className="mt-2.5 pt-2 border-t border-dashed border-sky-soft flex items-center justify-between gap-3">
+              <div className="mt-3 pt-2.5 border-t border-sky-soft flex items-center justify-between gap-3">
                 <div
                   onClick={() => toggleExpand(task.id)}
                   className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer select-none group/prog"
@@ -546,8 +546,8 @@ export default function TaskList({
                     {completedSubtasks}/{totalSubtasks} subtasks
                   </span>
 
-                  {/* Mini Progress Bar */}
-                  <div className="w-20 sm:w-28 h-2.5 bg-sky-light border border-sky-soft rounded-full overflow-hidden flex-shrink-0">
+                  {/* Mini Progress Bar Track & Fill */}
+                  <div className="w-24 sm:w-32 h-2.5 bg-sky-light border border-sky-soft rounded-full overflow-hidden flex-shrink-0">
                     <div
                       className="h-full bg-sky-deep rounded-full transition-all duration-300 shadow-xs"
                       style={{ width: `${subtaskPercentage}%` }}

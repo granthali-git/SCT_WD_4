@@ -16,7 +16,7 @@ export default {
         paper: {
           DEFAULT: '#F0F6FC',
           card: '#FFFFFF',
-          line: '#BAE6FD',
+          line: '#90CDF4',
         },
         sky: {
           50: '#F0F9FF',
@@ -30,8 +30,8 @@ export default {
           800: '#075985',
           900: '#0C4A6E',
           light: '#E0F2FE',
-          soft: '#BAE6FD',
-          DEFAULT: '#0EA5E9',
+          soft: '#90CDF4',
+          DEFAULT: '#38BDF8',
           main: '#0284C7',
           deep: '#0369A1',
         },

@@ -18,15 +18,15 @@ import {
 } from 'lucide-react';
 
 const PRIORITIES = [
-  { name: 'Low', badge: '3', badgeBg: 'bg-sky-soft text-sky-deep border border-sky-soft', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-soft shadow-xs', idleBg: 'bg-paper-card text-ink border border-sky-soft hover:bg-sky-light' },
-  { name: 'Medium', badge: '2', badgeBg: 'bg-sky-main text-white', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-soft shadow-xs', idleBg: 'bg-paper-card text-ink border border-sky-soft hover:bg-sky-light' },
-  { name: 'High', badge: '1', badgeBg: 'bg-sky-deep text-white', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-soft shadow-xs', idleBg: 'bg-paper-card text-ink border border-sky-soft hover:bg-sky-light' },
+  { name: 'Low', badge: '3', badgeBg: 'bg-sky-200 text-sky-800 border border-sky-300', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-deep shadow-xs', idleBg: 'bg-paper-card text-sky-deep border-2 border-sky-soft hover:bg-sky-light' },
+  { name: 'Medium', badge: '2', badgeBg: 'bg-sky-main text-white', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-deep shadow-xs', idleBg: 'bg-paper-card text-sky-deep border-2 border-sky-soft hover:bg-sky-light' },
+  { name: 'High', badge: '1', badgeBg: 'bg-sky-deep text-white', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-deep shadow-xs', idleBg: 'bg-paper-card text-sky-deep border-2 border-sky-soft hover:bg-sky-light' },
 ];
 
 const PRIORITY_MAP = PRIORITIES.reduce((acc, p) => ({ ...acc, [p.name]: p }), {});
 
 function getCategoryBadgeStyle() {
-  return 'bg-sky-light text-sky-deep border border-sky-soft font-bold';
+  return 'bg-sky-100 text-sky-800 border-2 border-sky-soft font-bold';
 }
 
 function isSameDay(d1, d2) {
@@ -349,7 +349,7 @@ export default function TaskList({
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2.5 border-t border-sky-soft">
                 <div className="flex items-center gap-3 flex-wrap">
                   <div className="flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5 text-sky-deep" />
+                    <Calendar className="w-3.5 h-3.5 text-sky-main" />
                     <label className="text-[11px] uppercase tracking-wider text-sky-deep font-bold">Due Date:</label>
                     <input
                       type="datetime-local"
@@ -360,7 +360,7 @@ export default function TaskList({
                   </div>
 
                   <div className="flex items-center gap-1.5">
-                    <Repeat className="w-3.5 h-3.5 text-sky-deep" />
+                    <Repeat className="w-3.5 h-3.5 text-sky-main" />
                     <label className="text-[11px] uppercase tracking-wider text-sky-deep font-bold">Repeat:</label>
                     <select
                       value={editFormData.repeat}
@@ -427,7 +427,7 @@ export default function TaskList({
                   onDragEnd={handleDragEnd}
                   role="button"
                   aria-label={`Drag to reorder task: ${task.title}`}
-                  className="cursor-grab active:cursor-grabbing p-0.5 -ml-1 text-sky-deep/60 hover:text-sky-deep transition-colors flex-shrink-0 touch-none"
+                  className="cursor-grab active:cursor-grabbing p-0.5 -ml-1 text-sky-main hover:text-sky-deep transition-colors flex-shrink-0 touch-none"
                   title="Drag to reorder"
                 >
                   <GripVertical className="w-4 h-4" />
@@ -486,7 +486,7 @@ export default function TaskList({
                           className="bg-sky-light text-sky-deep border border-sky-soft text-[10px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1"
                           title={`Recurring ${task.repeat}`}
                         >
-                          <Repeat className="w-3 h-3 text-sky-deep" />
+                          <Repeat className="w-3 h-3 text-sky-main" />
                           <span className="capitalize">{task.repeat}</span>
                         </span>
                       )}
@@ -502,7 +502,7 @@ export default function TaskList({
                               : 'text-ink/70'
                           }`}
                         >
-                          <Clock className="w-3 h-3 text-sky-deep" />
+                          <Clock className="w-3.5 h-3.5 text-sky-main" />
                           <span>{dueInfo.label}</span>
                         </span>
                       )}

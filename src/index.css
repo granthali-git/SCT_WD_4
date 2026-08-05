@@ -45,15 +45,19 @@ html, body, #root {
 }
 
 .bg-sky-soft {
-  background-color: #BAE6FD !important;
+  background-color: #90CDF4 !important;
 }
 
 .text-sky-deep {
   color: #0369A1 !important;
 }
 
+.text-sky-main {
+  color: #0284C7 !important;
+}
+
 .border-sky-soft {
-  border-color: #BAE6FD !important;
+  border-color: #90CDF4 !important;
 }
 
 .border-sky-deep {
@@ -70,7 +74,7 @@ html, body, #root {
 
 /* Form Inputs & Buttons Theme Enforcers */
 .input-sky {
-  border: 2px solid #BAE6FD !important;
+  border: 2px solid #90CDF4 !important;
   background-color: #FFFFFF !important;
   color: #1E293B !important;
 }

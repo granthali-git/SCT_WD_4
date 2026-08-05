@@ -6,7 +6,7 @@
 
 html, body, #root {
   min-height: 100vh;
-  background-color: #F0F6FC;
+  background-color: #EBF5FC;
   margin: 0;
   padding: 0;
 }
@@ -15,7 +15,7 @@ html, body, #root {
   body {
     font-family: 'Quicksand', 'Inter', sans-serif;
     font-weight: 500;
-    background-color: #F0F6FC;
+    background-color: #EBF5FC;
     color: #1E293B;
   }
 
@@ -29,43 +29,47 @@ html, body, #root {
   }
 }
 
-/* Explicit Color Overrides for Bolder Sky Blue Palette */
+/* Explicit Color Overrides for Bold Confident Sky Blue Palette */
 .bg-sky-deep {
-  background-color: #1D6FA5 !important;
+  background-color: #0F5D8F !important;
   color: #FFFFFF !important;
 }
 
 .bg-sky-main, .bg-sky-DEFAULT {
-  background-color: #4FA8DD !important;
+  background-color: #2E8BC9 !important;
   color: #FFFFFF !important;
 }
 
 .bg-sky-light {
-  background-color: #D6EBFA !important;
+  background-color: #C5E3F7 !important;
 }
 
 .bg-sky-soft {
-  background-color: #9FD3F0 !important;
+  background-color: #7EC2ED !important;
 }
 
 .text-sky-deep {
-  color: #1D6FA5 !important;
+  color: #0F5D8F !important;
 }
 
 .text-sky-DEFAULT, .text-sky-main {
-  color: #4FA8DD !important;
+  color: #2E8BC9 !important;
 }
 
 .border-sky-soft {
-  border-color: #9FD3F0 !important;
+  border-color: #7EC2ED !important;
+}
+
+.border-sky-DEFAULT, .border-sky-main {
+  border-color: #2E8BC9 !important;
 }
 
 .border-sky-deep {
-  border-color: #1D6FA5 !important;
+  border-color: #0F5D8F !important;
 }
 
 .bg-paper {
-  background-color: #F0F6FC !important;
+  background-color: #EBF5FC !important;
 }
 
 .bg-paper-card {
@@ -74,13 +78,13 @@ html, body, #root {
 
 /* Form Inputs & Buttons Theme Enforcers */
 .input-sky {
-  border: 2px solid #9FD3F0 !important;
+  border: 2px solid #2E8BC9 !important;
   background-color: #FFFFFF !important;
   color: #1E293B !important;
 }
 
 .input-sky:focus {
-  border-color: #1D6FA5 !important;
+  border-color: #0F5D8F !important;
   outline: none !important;
 }
 
@@ -109,9 +113,9 @@ html, body, #root {
   animation: pop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Printable off-white paper grid texture overlay with fixed attachment */
+/* Printable paper grid texture overlay with fixed attachment */
 .printable-paper-pattern {
-  background-image: radial-gradient(rgba(29, 111, 165, 0.28) 1.5px, transparent 1.5px);
+  background-image: radial-gradient(rgba(15, 93, 143, 0.28) 1.5px, transparent 1.5px);
   background-size: 22px 22px;
   background-attachment: fixed;
 }

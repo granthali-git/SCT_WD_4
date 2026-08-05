@@ -14,15 +14,15 @@ export default {
       },
       colors: {
         paper: {
-          DEFAULT: '#F0F6FC',
+          DEFAULT: '#EBF5FC',
           card: '#FFFFFF',
-          line: '#9FD3F0',
+          line: '#2E8BC9',
         },
         sky: {
-          light: '#D6EBFA',   // richer light blue
-          soft:  '#9FD3F0',   // clearly visible light-medium blue
-          DEFAULT: '#4FA8DD', // strong medium blue
-          deep:  '#1D6FA5',   // bold deep blue
+          light: '#C5E3F7',
+          soft:  '#7EC2ED',
+          DEFAULT: '#2E8BC9',
+          deep:  '#0F5D8F',
         },
         ink: '#1E293B',
       },

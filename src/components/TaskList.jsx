@@ -18,15 +18,15 @@ import {
 } from 'lucide-react';
 
 const PRIORITIES = [
-  { name: 'Low', badge: '3', badgeBg: 'bg-sky-200 text-sky-800 border border-sky-300', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-deep shadow-xs', idleBg: 'bg-paper-card text-sky-deep border-2 border-sky-soft hover:bg-sky-light' },
-  { name: 'Medium', badge: '2', badgeBg: 'bg-sky-main text-white', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-deep shadow-xs', idleBg: 'bg-paper-card text-sky-deep border-2 border-sky-soft hover:bg-sky-light' },
-  { name: 'High', badge: '1', badgeBg: 'bg-sky-deep text-white', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-deep shadow-xs', idleBg: 'bg-paper-card text-sky-deep border-2 border-sky-soft hover:bg-sky-light' },
+  { name: 'Low', badge: '3', badgeBg: 'bg-sky-soft text-sky-deep border border-sky-DEFAULT', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-deep shadow-xs', idleBg: 'bg-paper-card text-sky-deep border-2 border-sky-DEFAULT hover:bg-sky-light' },
+  { name: 'Medium', badge: '2', badgeBg: 'bg-sky-DEFAULT text-white', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-deep shadow-xs', idleBg: 'bg-paper-card text-sky-deep border-2 border-sky-DEFAULT hover:bg-sky-light' },
+  { name: 'High', badge: '1', badgeBg: 'bg-sky-deep text-white', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-deep shadow-xs', idleBg: 'bg-paper-card text-sky-deep border-2 border-sky-DEFAULT hover:bg-sky-light' },
 ];
 
 const PRIORITY_MAP = PRIORITIES.reduce((acc, p) => ({ ...acc, [p.name]: p }), {});
 
 function getCategoryBadgeStyle() {
-  return 'bg-sky-100 text-sky-800 border-2 border-sky-soft font-bold';
+  return 'bg-sky-light text-sky-deep border-2 border-sky-DEFAULT font-bold shadow-2xs';
 }
 
 function isSameDay(d1, d2) {
@@ -194,8 +194,8 @@ export default function TaskList({
   // Sticky-note callout style Empty State
   if (tasks.length === 0) {
     return (
-      <div className="bg-sky-light border-2 border-sky-soft rounded-2xl p-8 sm:p-10 flex flex-col items-center justify-center text-center font-sans shadow-xs space-y-2.5">
-        <div className="p-3 bg-paper-card rounded-2xl border border-sky-soft mb-1 shadow-xs">
+      <div className="bg-sky-light border-2 border-sky-DEFAULT rounded-2xl p-8 sm:p-10 flex flex-col items-center justify-center text-center font-sans shadow-xs space-y-2.5">
+        <div className="p-3 bg-paper-card rounded-2xl border border-sky-DEFAULT mb-1 shadow-xs">
           {totalTasksCount === 0 ? (
             <BookOpen className="w-8 h-8 text-sky-deep" />
           ) : (
@@ -235,9 +235,9 @@ export default function TaskList({
           return (
             <div
               key={task.id}
-              className="bg-paper-card border-2 border-sky-soft rounded-2xl p-4 space-y-3.5 shadow-sm"
+              className="bg-paper-card border-2 border-sky-DEFAULT rounded-2xl p-4 space-y-3.5 shadow-sm"
             >
-              <div className="bg-sky-light text-sky-deep rounded-lg px-3 py-1 font-bold text-xs inline-flex items-center gap-1.5 border border-sky-soft">
+              <div className="bg-sky-light text-sky-deep rounded-lg px-3 py-1 font-bold text-xs inline-flex items-center gap-1.5 border border-sky-DEFAULT">
                 <Pencil className="w-3.5 h-3.5 text-sky-deep" />
                 <span>Editing Goal</span>
               </div>
@@ -247,11 +247,11 @@ export default function TaskList({
                 type="text"
                 value={editFormData.title}
                 onChange={(e) => setEditFormData({ ...editFormData, title: e.target.value })}
-                className="w-full bg-paper-card border-2 border-sky-soft rounded-xl px-3.5 py-2 text-xs text-ink font-semibold focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30"
+                className="w-full bg-paper-card border-2 border-sky-DEFAULT rounded-xl px-3.5 py-2 text-xs text-ink font-semibold focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30"
               />
 
               {/* Edit Subtasks Checklist */}
-              <div className="bg-sky-light/40 border border-sky-soft rounded-xl p-3 space-y-2">
+              <div className="bg-sky-light/40 border border-sky-DEFAULT rounded-xl p-3 space-y-2">
                 <div className="text-[11px] font-bold uppercase tracking-wider text-sky-deep flex items-center gap-1.5">
                   <ListChecks className="w-3.5 h-3.5 text-sky-deep" />
                   <span>Subtasks / Checklist</span>
@@ -269,7 +269,7 @@ export default function TaskList({
                       }
                     }}
                     placeholder="Add a new subtask..."
-                    className="flex-1 bg-paper-card border border-sky-soft rounded-lg px-3 py-1 text-xs text-ink focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 font-medium"
+                    className="flex-1 bg-paper-card border border-sky-DEFAULT rounded-lg px-3 py-1 text-xs text-ink focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 font-medium"
                   />
                   <button
                     type="button"
@@ -287,7 +287,7 @@ export default function TaskList({
                     {editFormData.subtasks.map((sub) => (
                       <li
                         key={sub.id}
-                        className="flex items-center justify-between bg-paper-card border border-sky-soft px-3 py-1 rounded-lg text-xs text-ink font-medium"
+                        className="flex items-center justify-between bg-paper-card border border-sky-DEFAULT px-3 py-1 rounded-lg text-xs text-ink font-medium"
                       >
                         <span className="truncate">{sub.text}</span>
                         <button
@@ -312,7 +312,7 @@ export default function TaskList({
                   <select
                     value={editFormData.category}
                     onChange={(e) => setEditFormData({ ...editFormData, category: e.target.value })}
-                    className="bg-paper-card border border-sky-soft rounded-xl px-2.5 py-1 text-xs text-sky-deep font-bold focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 cursor-pointer"
+                    className="bg-paper-card border border-sky-DEFAULT rounded-xl px-2.5 py-1 text-xs text-sky-deep font-bold focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 cursor-pointer"
                   >
                     <option value="Work">Work</option>
                     <option value="Personal">Personal</option>
@@ -346,26 +346,26 @@ export default function TaskList({
               </div>
 
               {/* Bottom Row: Due Date, Repeat & Actions */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2.5 border-t border-sky-soft">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2.5 border-t border-sky-DEFAULT">
                 <div className="flex items-center gap-3 flex-wrap">
                   <div className="flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5 text-sky-main" />
+                    <Calendar className="w-3.5 h-3.5 text-sky-DEFAULT" />
                     <label className="text-[11px] uppercase tracking-wider text-sky-deep font-bold">Due Date:</label>
                     <input
                       type="datetime-local"
                       value={editFormData.dueDate}
                       onChange={(e) => setEditFormData({ ...editFormData, dueDate: e.target.value })}
-                      className="bg-paper-card border border-sky-soft rounded-xl px-2.5 py-1 text-xs text-ink focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 font-semibold"
+                      className="bg-paper-card border border-sky-DEFAULT rounded-xl px-2.5 py-1 text-xs text-ink focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 font-semibold"
                     />
                   </div>
 
                   <div className="flex items-center gap-1.5">
-                    <Repeat className="w-3.5 h-3.5 text-sky-main" />
+                    <Repeat className="w-3.5 h-3.5 text-sky-DEFAULT" />
                     <label className="text-[11px] uppercase tracking-wider text-sky-deep font-bold">Repeat:</label>
                     <select
                       value={editFormData.repeat}
                       onChange={(e) => setEditFormData({ ...editFormData, repeat: e.target.value })}
-                      className="bg-paper-card border border-sky-soft rounded-xl px-2 py-1 text-xs text-ink focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 cursor-pointer font-semibold"
+                      className="bg-paper-card border border-sky-DEFAULT rounded-xl px-2 py-1 text-xs text-ink focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 cursor-pointer font-semibold"
                     >
                       <option value="none">None</option>
                       <option value="daily">Daily</option>
@@ -379,7 +379,7 @@ export default function TaskList({
                   <button
                     type="button"
                     onClick={cancelEditing}
-                    className="flex items-center gap-1 bg-sky-light hover:bg-sky-soft/60 border border-sky-soft text-sky-deep font-bold px-3.5 py-1 rounded-xl text-xs transition-all cursor-pointer"
+                    className="flex items-center gap-1 bg-sky-light hover:bg-sky-soft/60 border border-sky-DEFAULT text-sky-deep font-bold px-3.5 py-1 rounded-xl text-xs transition-all cursor-pointer"
                   >
                     <X className="w-3.5 h-3.5" />
                     <span>Cancel</span>
@@ -405,7 +405,7 @@ export default function TaskList({
             onDragOver={(e) => handleDragOver(e, index)}
             onDragLeave={() => handleDragLeave(index)}
             onDrop={(e) => handleDrop(e, index)}
-            className={`relative rounded-xl border-2 border-sky-soft p-3.5 shadow-xs hover:border-sky-deep transition-all duration-200 ${
+            className={`relative rounded-xl border-2 border-sky-DEFAULT p-3.5 shadow-xs hover:border-sky-deep transition-all duration-200 ${
               isDeleting
                 ? 'opacity-0 scale-95 pointer-events-none'
                 : isDragging
@@ -413,8 +413,8 @@ export default function TaskList({
                 : isDragOver
                 ? 'border-t-4 border-t-sky-deep bg-sky-light/40 shadow-xs'
                 : task.completed
-                ? 'bg-sky-light/30 border-2 border-sky-soft opacity-75'
-                : 'bg-paper-card border-2 border-sky-soft'
+                ? 'bg-sky-light/40 border-2 border-sky-DEFAULT opacity-80'
+                : 'bg-paper-card border-2 border-sky-DEFAULT'
             }`}
           >
             <div className="flex items-start sm:items-center justify-between gap-3">
@@ -427,7 +427,7 @@ export default function TaskList({
                   onDragEnd={handleDragEnd}
                   role="button"
                   aria-label={`Drag to reorder task: ${task.title}`}
-                  className="cursor-grab active:cursor-grabbing p-0.5 -ml-1 text-sky-main hover:text-sky-deep transition-colors flex-shrink-0 touch-none"
+                  className="cursor-grab active:cursor-grabbing p-0.5 -ml-1 text-sky-DEFAULT hover:text-sky-deep transition-colors flex-shrink-0 touch-none"
                   title="Drag to reorder"
                 >
                   <GripVertical className="w-4 h-4" />
@@ -483,10 +483,10 @@ export default function TaskList({
                       {/* Recurring Repeat Badge */}
                       {task.repeat && task.repeat !== 'none' && (
                         <span
-                          className="bg-sky-light text-sky-deep border border-sky-soft text-[10px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1"
+                          className="bg-sky-light text-sky-deep border-2 border-sky-DEFAULT text-[10px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1"
                           title={`Recurring ${task.repeat}`}
                         >
-                          <Repeat className="w-3 h-3 text-sky-main" />
+                          <Repeat className="w-3 h-3 text-sky-DEFAULT" />
                           <span className="capitalize">{task.repeat}</span>
                         </span>
                       )}
@@ -502,7 +502,7 @@ export default function TaskList({
                               : 'text-ink/70'
                           }`}
                         >
-                          <Clock className="w-3.5 h-3.5 text-sky-main" />
+                          <Clock className="w-3.5 h-3.5 text-sky-DEFAULT" />
                           <span>{dueInfo.label}</span>
                         </span>
                       )}
@@ -536,7 +536,7 @@ export default function TaskList({
 
             {/* Subtask Progress & Expand Button */}
             {totalSubtasks > 0 && (
-              <div className="mt-3 pt-2.5 border-t border-sky-soft flex items-center justify-between gap-3">
+              <div className="mt-3 pt-2.5 border-t border-sky-DEFAULT flex items-center justify-between gap-3">
                 <div
                   onClick={() => toggleExpand(task.id)}
                   className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer select-none group/prog"
@@ -547,7 +547,7 @@ export default function TaskList({
                   </span>
 
                   {/* Mini Progress Bar Track & Fill */}
-                  <div className="w-24 sm:w-32 h-2.5 bg-sky-light border border-sky-soft rounded-full overflow-hidden flex-shrink-0">
+                  <div className="w-24 sm:w-32 h-2.5 bg-sky-light border border-sky-DEFAULT rounded-full overflow-hidden flex-shrink-0">
                     <div
                       className="h-full bg-sky-deep rounded-full transition-all duration-300 shadow-xs"
                       style={{ width: `${subtaskPercentage}%` }}
@@ -569,7 +569,7 @@ export default function TaskList({
 
             {/* Expanded Subtask Checklist */}
             {isExpanded && totalSubtasks > 0 && (
-              <div className="mt-2 bg-sky-light/40 border border-sky-soft rounded-xl p-3 space-y-1.5">
+              <div className="mt-2 bg-sky-light/40 border border-sky-DEFAULT rounded-xl p-3 space-y-1.5">
                 <div className="text-[10px] font-bold uppercase tracking-wider text-sky-deep mb-1 flex items-center gap-1">
                   <ListChecks className="w-3 h-3 text-sky-deep" />
                   Checklist

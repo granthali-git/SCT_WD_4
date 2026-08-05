@@ -9,7 +9,6 @@ import {
   Coffee,
   Cloud,
   AlarmClock,
-  Smile,
 } from 'lucide-react';
 import AddTask from './components/AddTask';
 import TaskList from './components/TaskList';
@@ -61,6 +60,24 @@ function getNextDueDate(dueDateStr, repeat) {
   const minutes = String(nextDate.getMinutes()).padStart(2, '0');
 
   return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+function deduplicateTasks(taskList) {
+  if (!Array.isArray(taskList)) return [];
+  const seen = new Map();
+  for (const t of taskList) {
+    const key = (t.title || '').toLowerCase().trim();
+    if (!key) continue;
+    if (!seen.has(key)) {
+      seen.set(key, t);
+    } else {
+      const existing = seen.get(key);
+      if (existing.completed && !t.completed) {
+        seen.set(key, t);
+      }
+    }
+  }
+  return Array.from(seen.values());
 }
 
 // Generate relative dates for realistic mock initial tasks
@@ -133,7 +150,8 @@ const INITIAL_TASKS = [
 function App() {
   const [tasks, setTasks] = useState(() => {
     const saved = getTasks();
-    return saved !== null ? saved : INITIAL_TASKS;
+    const loaded = saved !== null ? saved : INITIAL_TASKS;
+    return deduplicateTasks(loaded);
   });
   const [activeTab, setActiveTab] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -210,13 +228,14 @@ function App() {
 
   // Persist tasks and check streak whenever task list changes
   useEffect(() => {
-    saveTasks(tasks);
+    const cleanTasks = deduplicateTasks(tasks);
+    saveTasks(cleanTasks);
     const updatedStreak = checkAndUpdateStreak(todayTasks);
     setStreak(updatedStreak);
   }, [tasks]);
 
   const handleAddTask = (newTask) => {
-    setTasks((prevTasks) => [newTask, ...prevTasks]);
+    setTasks((prevTasks) => deduplicateTasks([newTask, ...prevTasks]));
   };
 
   const handleToggleCompleted = (id) => {
@@ -227,27 +246,24 @@ function App() {
       const isMarkingComplete = !targetTask.completed;
       const isRecurring = targetTask.repeat && targetTask.repeat !== 'none';
 
-      const updatedTasks = prevTasks.map((t) =>
-        t.id === id ? { ...t, completed: !t.completed } : t
-      );
-
       if (isMarkingComplete && isRecurring) {
+        // Roll due date forward in-place instead of creating a duplicate card!
         const nextDueDate = getNextDueDate(targetTask.dueDate, targetTask.repeat);
-        const nextTask = {
-          id: Date.now().toString() + '-' + Math.random().toString(36).substring(2, 7),
-          title: targetTask.title,
-          category: targetTask.category,
-          priority: targetTask.priority,
-          dueDate: nextDueDate,
-          repeat: targetTask.repeat,
-          completed: false,
-          createdAt: new Date().toISOString(),
-          subtasks: (targetTask.subtasks || []).map((sub) => ({ ...sub, done: false })),
-        };
-        return [nextTask, ...updatedTasks];
+        return prevTasks.map((t) =>
+          t.id === id
+            ? {
+                ...t,
+                dueDate: nextDueDate,
+                completed: false, // Reset completion state for next cycle
+                subtasks: (t.subtasks || []).map((sub) => ({ ...sub, done: false })),
+              }
+            : t
+        );
       }
 
-      return updatedTasks;
+      return prevTasks.map((t) =>
+        t.id === id ? { ...t, completed: !t.completed } : t
+      );
     });
   };
 
@@ -373,7 +389,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-paper printable-paper-pattern text-ink text-xs sm:text-sm flex flex-col items-center relative overflow-x-hidden pb-12 transition-all">
-      {/* DECORATIVE PLANNER DOODLES / ICONS ON LEFT AND RIGHT SIDES */}
+      {/* DECORATIVE PLANNER DOODLES ON LEFT AND RIGHT SIDES */}
       <BookOpen className="fixed top-28 left-4 sm:left-12 w-10 h-10 text-sky-deep/30 z-0 pointer-events-none transform -rotate-12 hidden md:block" />
       <Coffee className="fixed top-[360px] left-6 sm:left-14 w-10 h-10 text-sky-deep/30 z-0 pointer-events-none transform rotate-6 hidden md:block" />
       <Pencil className="fixed bottom-24 left-5 sm:left-16 w-10 h-10 text-sky-deep/30 z-0 pointer-events-none transform -rotate-45 hidden md:block" />
@@ -382,10 +398,10 @@ function App() {
       <Star className="fixed bottom-28 right-5 sm:right-16 w-10 h-10 text-sky-deep/30 fill-sky-deep/20 z-0 pointer-events-none transform rotate-45 hidden md:block" />
 
       {/* 1. STICKY HEADER BAR */}
-      <header className="sticky top-0 z-40 w-full bg-sky-light/95 backdrop-blur-md border-b-2 border-sky-soft px-4 py-3 shadow-xs">
+      <header className="sticky top-0 z-40 w-full bg-sky-light/95 backdrop-blur-md border-b-2 border-sky-DEFAULT px-4 py-3 shadow-sm">
         <div className="max-w-4xl mx-auto flex items-center justify-between gap-4 flex-wrap sm:flex-nowrap">
           {/* Top-Left Rotated Sticky Note */}
-          <div className="hidden sm:block bg-sky-light text-sky-deep border-2 border-sky-soft rounded-xl px-3 py-2 text-xs font-bold transform -rotate-2 shadow-xs select-none">
+          <div className="hidden sm:block bg-sky-light text-sky-deep border-2 border-sky-DEFAULT rounded-xl px-3 py-2 text-xs font-bold transform -rotate-2 shadow-xs select-none">
             Small steps every day lead to big results ✨
           </div>
 
@@ -399,22 +415,22 @@ function App() {
               <Star className="w-5 h-5 text-sky-deep fill-sky-deep" />
             </div>
             <div className="mt-1.5">
-              <span className="bg-sky-soft text-sky-deep border-2 border-sky-soft rounded-full px-4 py-1 text-xs italic font-bold inline-block shadow-xs">
+              <span className="bg-sky-DEFAULT text-white border-2 border-sky-deep rounded-full px-4 py-1 text-xs italic font-bold inline-block shadow-xs">
                 Plan today, achieve tomorrow ♡
               </span>
             </div>
           </div>
 
           {/* Top-Right Rotated Sticky Note */}
-          <div className="hidden sm:block bg-sky-light text-sky-deep border-2 border-sky-soft rounded-xl px-3 py-2 text-xs font-bold transform rotate-2 shadow-xs select-none">
+          <div className="hidden sm:block bg-sky-light text-sky-deep border-2 border-sky-DEFAULT rounded-xl px-3 py-2 text-xs font-bold transform rotate-2 shadow-xs select-none">
             Focus · Plan · Work · Stay consistent · Succeed 🌟
           </div>
         </div>
 
         {/* Navigation & Stat Row */}
-        <div className="max-w-4xl mx-auto flex items-center justify-between gap-3 mt-2.5 pt-2.5 border-t-2 border-sky-soft">
+        <div className="max-w-4xl mx-auto flex items-center justify-between gap-3 mt-2.5 pt-2.5 border-t-2 border-sky-DEFAULT">
           {/* Pill Tabs */}
-          <div className="flex items-center gap-1.5 bg-sky-light p-1 rounded-xl border-2 border-sky-soft shadow-xs">
+          <div className="flex items-center gap-1.5 bg-sky-light p-1 rounded-xl border-2 border-sky-DEFAULT shadow-xs">
             <button
               type="button"
               onClick={() => setHeaderTab('tasks')}
@@ -441,18 +457,18 @@ function App() {
 
           {/* Stat Badges & Settings */}
           <div className="flex items-center gap-2">
-            <div className="hidden sm:flex items-center gap-2 font-sans text-xs bg-paper-card border-2 border-sky-soft px-3 py-1 rounded-full shadow-xs">
-              <span className="bg-sky-light text-sky-deep border border-sky-soft px-2.5 py-0.5 rounded-full font-bold">{totalPending} pending</span>
-              <div className="border-r-2 border-sky-soft h-3.5 mx-0.5" />
+            <div className="hidden sm:flex items-center gap-2 font-sans text-xs bg-paper-card border-2 border-sky-DEFAULT px-3 py-1 rounded-full shadow-xs">
+              <span className="bg-sky-light text-sky-deep border border-sky-DEFAULT px-2.5 py-0.5 rounded-full font-bold">{totalPending} pending</span>
+              <div className="border-r-2 border-sky-DEFAULT h-3.5 mx-0.5" />
               <span className="bg-emerald-100 text-emerald-800 border border-emerald-300 px-2.5 py-0.5 rounded-full font-bold">{totalCompleted} completed</span>
-              <div className="border-r-2 border-sky-soft h-3.5 mx-0.5" />
+              <div className="border-r-2 border-sky-DEFAULT h-3.5 mx-0.5" />
               <span className="bg-rose-100 text-rose-800 border border-rose-300 px-2.5 py-0.5 rounded-full font-bold">{totalOverdue} overdue</span>
             </div>
 
             <button
               type="button"
               onClick={() => setIsShortcutsModalOpen(true)}
-              className="p-2 text-sky-deep bg-sky-light hover:bg-sky-deep hover:text-white rounded-xl transition-all border-2 border-sky-soft cursor-pointer shadow-xs"
+              className="p-2 text-sky-deep bg-sky-light hover:bg-sky-deep hover:text-white rounded-xl transition-all border-2 border-sky-DEFAULT cursor-pointer shadow-xs"
               title="Settings & Shortcuts (?)"
             >
               <Settings className="w-4 h-4" />
@@ -474,11 +490,11 @@ function App() {
         </section>
 
         {/* 3. MAIN CARD */}
-        <div className="bg-paper-card border-2 border-sky-soft shadow-md shadow-sky-deep/15 rounded-2xl p-4 sm:p-6 space-y-5 animate-page-fade-in relative z-10">
+        <div className="bg-paper-card border-2 border-sky-DEFAULT shadow-md shadow-sky-deep/20 rounded-2xl p-4 sm:p-6 space-y-5 animate-page-fade-in relative z-10">
           {headerTab === 'analytics' ? (
             /* Analytics View */
             <div className="space-y-4 font-sans text-ink">
-              <div className="flex items-center justify-between border-b-2 border-sky-soft pb-3">
+              <div className="flex items-center justify-between border-b-2 border-sky-DEFAULT pb-3">
                 <h3 className="font-fredoka font-bold text-lg text-sky-deep flex items-center gap-2">
                   <BarChart3 className="w-5 h-5 text-sky-deep" />
                   Productivity & Goal Analytics
@@ -487,15 +503,15 @@ function App() {
               </div>
 
               <div className="grid grid-cols-3 gap-3">
-                <div className="bg-sky-light/60 p-3.5 rounded-xl border-2 border-sky-soft text-center shadow-xs">
+                <div className="bg-sky-light/60 p-3.5 rounded-xl border-2 border-sky-DEFAULT text-center shadow-xs">
                   <p className="text-xs text-ink/70 font-medium">Total Pending</p>
                   <p className="text-xl font-bold text-sky-deep mt-1">{totalPending}</p>
                 </div>
-                <div className="bg-sky-light/60 p-3.5 rounded-xl border-2 border-sky-soft text-center shadow-xs">
+                <div className="bg-sky-light/60 p-3.5 rounded-xl border-2 border-sky-DEFAULT text-center shadow-xs">
                   <p className="text-xs text-ink/70 font-medium">Total Completed</p>
                   <p className="text-xl font-bold text-emerald-700 mt-1">{totalCompleted}</p>
                 </div>
-                <div className="bg-sky-light/60 p-3.5 rounded-xl border-2 border-sky-soft text-center shadow-xs">
+                <div className="bg-sky-light/60 p-3.5 rounded-xl border-2 border-sky-DEFAULT text-center shadow-xs">
                   <p className="text-xs text-ink/70 font-medium">Overdue Rate</p>
                   <p className="text-xl font-bold text-rose-600 mt-1">
                     {tasks.length > 0 ? Math.round((totalOverdue / tasks.length) * 100) : 0}%
@@ -557,7 +573,7 @@ function App() {
 
       {/* FOOTER BADGE */}
       <footer className="mt-8 text-center space-y-2 z-10">
-        <div className="inline-block bg-sky-deep text-white border-2 border-sky-deep rounded-full px-6 py-2 font-bold shadow-md">
+        <div className="inline-block bg-sky-deep text-white border-2 border-sky-deep rounded-full px-6.5 py-2 font-bold shadow-md">
           KEEP GROWING 🌸
         </div>
         <p className="text-xs italic text-ink/70 font-medium">

@@ -380,7 +380,7 @@ function App() {
               <Star className="w-5 h-5 text-sky-deep fill-sky-deep" />
             </div>
             <div className="mt-1.5">
-              <span className="bg-sky-soft/80 text-sky-deep border border-sky-soft rounded-full px-4 py-1 text-xs italic font-bold inline-block shadow-xs">
+              <span className="bg-sky-soft text-sky-deep border-2 border-sky-soft rounded-full px-4 py-1 text-xs italic font-bold inline-block shadow-xs">
                 Plan today, achieve tomorrow ♡
               </span>
             </div>
@@ -393,16 +393,16 @@ function App() {
         </div>
 
         {/* Navigation & Stat Row */}
-        <div className="max-w-4xl mx-auto flex items-center justify-between gap-3 mt-2.5 pt-2.5 border-t border-sky-soft">
+        <div className="max-w-4xl mx-auto flex items-center justify-between gap-3 mt-2.5 pt-2.5 border-t-2 border-sky-soft">
           {/* Pill Tabs */}
-          <div className="flex items-center gap-1.5 bg-paper-card p-1 rounded-xl border border-sky-soft shadow-xs">
+          <div className="flex items-center gap-1.5 bg-sky-light p-1 rounded-xl border-2 border-sky-soft shadow-xs">
             <button
               type="button"
               onClick={() => setHeaderTab('tasks')}
-              className={`px-4 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 headerTab === 'tasks'
-                  ? 'bg-sky-deep text-white shadow-xs font-sans'
-                  : 'text-sky-deep hover:bg-sky-light font-sans'
+                  ? 'bg-sky-deep text-white border-2 border-sky-deep shadow-xs font-sans'
+                  : 'text-sky-deep hover:bg-sky-soft font-sans'
               }`}
             >
               Tasks
@@ -410,10 +410,10 @@ function App() {
             <button
               type="button"
               onClick={() => setHeaderTab('analytics')}
-              className={`px-4 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 headerTab === 'analytics'
-                  ? 'bg-sky-deep text-white shadow-xs font-sans'
-                  : 'text-sky-deep hover:bg-sky-light font-sans'
+                  ? 'bg-sky-deep text-white border-2 border-sky-deep shadow-xs font-sans'
+                  : 'text-sky-deep hover:bg-sky-soft font-sans'
               }`}
             >
               Analytics
@@ -422,18 +422,18 @@ function App() {
 
           {/* Stat Badges & Settings */}
           <div className="flex items-center gap-2">
-            <div className="hidden sm:flex items-center gap-2 font-sans text-xs bg-paper-card border border-sky-soft px-3 py-1 rounded-full shadow-xs">
-              <span className="text-sky-deep font-bold">{totalPending} pending</span>
-              <div className="border-r border-sky-soft h-3.5 mx-0.5" />
-              <span className="text-emerald-700 font-bold">{totalCompleted} completed</span>
-              <div className="border-r border-sky-soft h-3.5 mx-0.5" />
-              <span className="text-rose-600 font-bold">{totalOverdue} overdue</span>
+            <div className="hidden sm:flex items-center gap-2 font-sans text-xs bg-paper-card border-2 border-sky-soft px-3 py-1 rounded-full shadow-xs">
+              <span className="bg-sky-light text-sky-deep border border-sky-soft px-2.5 py-0.5 rounded-full font-bold">{totalPending} pending</span>
+              <div className="border-r-2 border-sky-soft h-3.5 mx-0.5" />
+              <span className="bg-emerald-100 text-emerald-800 border border-emerald-300 px-2.5 py-0.5 rounded-full font-bold">{totalCompleted} completed</span>
+              <div className="border-r-2 border-sky-soft h-3.5 mx-0.5" />
+              <span className="bg-rose-100 text-rose-800 border border-rose-300 px-2.5 py-0.5 rounded-full font-bold">{totalOverdue} overdue</span>
             </div>
 
             <button
               type="button"
               onClick={() => setIsShortcutsModalOpen(true)}
-              className="p-1.5 text-sky-deep hover:text-white bg-sky-light hover:bg-sky-deep rounded-xl transition-colors border border-sky-soft cursor-pointer shadow-xs"
+              className="p-2 text-sky-deep bg-sky-light hover:bg-sky-deep hover:text-white rounded-xl transition-all border-2 border-sky-soft cursor-pointer shadow-xs"
               title="Settings & Shortcuts (?)"
             >
               <Settings className="w-4 h-4" />
@@ -459,7 +459,7 @@ function App() {
           {headerTab === 'analytics' ? (
             /* Analytics View */
             <div className="space-y-4 font-sans text-ink">
-              <div className="flex items-center justify-between border-b border-sky-soft pb-3">
+              <div className="flex items-center justify-between border-b-2 border-sky-soft pb-3">
                 <h3 className="font-fredoka font-bold text-lg text-sky-deep flex items-center gap-2">
                   <BarChart3 className="w-5 h-5 text-sky-deep" />
                   Productivity & Goal Analytics
@@ -468,15 +468,15 @@ function App() {
               </div>
 
               <div className="grid grid-cols-3 gap-3">
-                <div className="bg-sky-light/60 p-3.5 rounded-xl border border-sky-soft text-center shadow-xs">
+                <div className="bg-sky-light/60 p-3.5 rounded-xl border-2 border-sky-soft text-center shadow-xs">
                   <p className="text-xs text-ink/70 font-medium">Total Pending</p>
                   <p className="text-xl font-bold text-sky-deep mt-1">{totalPending}</p>
                 </div>
-                <div className="bg-sky-light/60 p-3.5 rounded-xl border border-sky-soft text-center shadow-xs">
+                <div className="bg-sky-light/60 p-3.5 rounded-xl border-2 border-sky-soft text-center shadow-xs">
                   <p className="text-xs text-ink/70 font-medium">Total Completed</p>
                   <p className="text-xl font-bold text-emerald-700 mt-1">{totalCompleted}</p>
                 </div>
-                <div className="bg-sky-light/60 p-3.5 rounded-xl border border-sky-soft text-center shadow-xs">
+                <div className="bg-sky-light/60 p-3.5 rounded-xl border-2 border-sky-soft text-center shadow-xs">
                   <p className="text-xs text-ink/70 font-medium">Overdue Rate</p>
                   <p className="text-xl font-bold text-rose-600 mt-1">
                     {tasks.length > 0 ? Math.round((totalOverdue / tasks.length) * 100) : 0}%
@@ -538,7 +538,7 @@ function App() {
 
       {/* FOOTER BADGE */}
       <footer className="mt-8 text-center space-y-2 z-10">
-        <div className="inline-block bg-sky-deep text-white border-2 border-sky-soft rounded-full px-6 py-2 font-bold shadow-md">
+        <div className="inline-block bg-sky-deep text-white border-2 border-sky-deep rounded-full px-6 py-2 font-bold shadow-md">
           KEEP GROWING 🌸
         </div>
         <p className="text-xs italic text-ink/70 font-medium">

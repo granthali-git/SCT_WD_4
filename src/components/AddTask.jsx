@@ -5,9 +5,9 @@ import { parseNaturalLanguageDate } from '../utils/parseDate';
 const CATEGORIES = ['Work', 'Personal', 'Study', 'Health'];
 
 const PRIORITIES = [
-  { name: 'Low', badge: '3', badgeBg: 'bg-sky-soft text-sky-deep', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-soft shadow-xs', idleBg: 'bg-paper-card text-ink border border-sky-soft hover:bg-sky-light' },
-  { name: 'Medium', badge: '2', badgeBg: 'bg-sky text-white', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-soft shadow-xs', idleBg: 'bg-paper-card text-ink border border-sky-soft hover:bg-sky-light' },
-  { name: 'High', badge: '1', badgeBg: 'bg-sky-deep text-white', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-soft shadow-xs', idleBg: 'bg-paper-card text-ink border border-sky-soft hover:bg-sky-light' },
+  { name: 'Low', badge: '3', badgeBg: 'bg-sky-soft text-sky-deep border border-sky-soft', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-deep shadow-xs', idleBg: 'bg-paper-card text-sky-deep border-2 border-sky-soft hover:bg-sky-light' },
+  { name: 'Medium', badge: '2', badgeBg: 'bg-sky-main text-white', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-deep shadow-xs', idleBg: 'bg-paper-card text-sky-deep border-2 border-sky-soft hover:bg-sky-light' },
+  { name: 'High', badge: '1', badgeBg: 'bg-sky-deep text-white', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-deep shadow-xs', idleBg: 'bg-paper-card text-sky-deep border-2 border-sky-soft hover:bg-sky-light' },
 ];
 
 export default function AddTask({ onAddTask }) {
@@ -99,10 +99,10 @@ export default function AddTask({ onAddTask }) {
         <button
           type="button"
           onClick={() => setShowSubtasks(!showSubtasks)}
-          className={`flex items-center gap-1.5 text-xs font-bold px-3.5 py-1.5 rounded-xl transition-all border cursor-pointer ${
+          className={`flex items-center gap-1.5 text-xs font-bold px-3.5 py-1.5 rounded-xl transition-all border-2 cursor-pointer ${
             showSubtasks || subtasks.length > 0
               ? 'bg-sky-deep text-white border-sky-deep shadow-xs'
-              : 'bg-sky-light text-sky-deep border-sky-soft hover:bg-sky-soft/60'
+              : 'bg-sky-light text-sky-deep border-sky-soft hover:bg-sky-soft'
           }`}
         >
           <ListChecks className="w-3.5 h-3.5" />
@@ -124,7 +124,7 @@ export default function AddTask({ onAddTask }) {
 
       {/* Optional Subtasks Section */}
       {(showSubtasks || subtasks.length > 0) && (
-        <div className="bg-sky-light border border-sky-soft rounded-xl p-3 space-y-2">
+        <div className="bg-sky-light border-2 border-sky-soft rounded-xl p-3 space-y-2">
           <div className="text-[11px] font-bold uppercase tracking-wider text-sky-deep flex items-center gap-1.5">
             <ListChecks className="w-3.5 h-3.5 text-sky-deep" />
             <span>Subtask Checklist</span>
@@ -138,14 +138,14 @@ export default function AddTask({ onAddTask }) {
               onChange={(e) => setSubtaskInput(e.target.value)}
               onKeyDown={handleSubtaskKeyDown}
               placeholder="Add step-by-step detail..."
-              className="flex-1 bg-paper-card border border-sky-soft rounded-lg px-3 py-1.5 text-xs text-ink placeholder-ink/50 focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 font-medium"
+              className="flex-1 bg-paper-card border-2 border-sky-soft rounded-lg px-3 py-1.5 text-xs text-ink focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 font-medium"
             />
             <button
               type="button"
               onClick={handleAddSubtask}
               aria-label="Add subtask"
               disabled={!subtaskInput.trim()}
-              className="bg-sky-deep hover:bg-sky-deep/90 text-white disabled:opacity-40 p-1.5 rounded-lg border border-sky-deep text-xs transition-all cursor-pointer font-bold"
+              className="bg-sky-deep hover:bg-sky-deep/90 text-white disabled:bg-sky-main p-1.5 rounded-lg border border-sky-deep text-xs transition-all cursor-pointer font-bold"
             >
               <Plus className="w-4 h-4" />
             </button>
@@ -190,10 +190,10 @@ export default function AddTask({ onAddTask }) {
                 key={cat}
                 type="button"
                 onClick={() => setCategory(cat)}
-                className={`px-3 py-1 rounded-full text-[11px] font-bold tracking-wide transition-all cursor-pointer ${
+                className={`px-3 py-1 rounded-full text-[11px] font-bold tracking-wide transition-all border-2 cursor-pointer ${
                   isSelected
-                    ? 'bg-sky-deep text-white font-bold shadow-xs'
-                    : 'bg-sky-light text-sky-deep border border-sky-soft hover:bg-sky-soft/60'
+                    ? 'bg-sky-deep text-white border-sky-deep font-bold shadow-xs'
+                    : 'bg-sky-light text-sky-deep border-sky-soft hover:bg-sky-soft'
                 }`}
               >
                 {cat}
@@ -230,7 +230,7 @@ export default function AddTask({ onAddTask }) {
       </div>
 
       {/* Bottom Row: Due Date Picker, Quick Date Text & Repeat Selector */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-sky-soft">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t-2 border-sky-soft">
         <div className="flex items-center gap-2.5 flex-wrap">
           <div className="flex items-center gap-1.5">
             <Calendar className="w-3.5 h-3.5 text-sky-deep" />
@@ -242,18 +242,18 @@ export default function AddTask({ onAddTask }) {
                 setDueDate(e.target.value);
                 setQuickDateMatched(false);
               }}
-              className="bg-paper-card border border-sky-soft rounded-xl px-2.5 py-1 text-xs text-ink focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 font-semibold"
+              className="bg-paper-card border-2 border-sky-soft rounded-xl px-2.5 py-1.5 text-xs text-ink focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 font-bold shadow-xs"
             />
           </div>
 
-          {/* Quick Date Natural Language Input */}
+          {/* Quick Date Natural Language Input with explicit sky-soft border */}
           <div className="relative flex items-center">
             <input
               type="text"
               value={quickDate}
               onChange={(e) => handleQuickDateChange(e.target.value)}
               placeholder='e.g. "tomorrow 5pm"...'
-              className="bg-paper-card border border-sky-soft rounded-xl pl-2.5 pr-6 py-1 text-xs text-ink placeholder-ink/50 focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 w-40 sm:w-44 font-semibold"
+              className="bg-paper-card border-2 border-sky-soft rounded-xl pl-2.5 pr-6 py-1.5 text-xs text-ink placeholder-ink/50 focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 w-40 sm:w-44 font-bold shadow-xs"
             />
             {quickDateMatched && (
               <span className="absolute right-2 text-emerald-700 flex items-center" title="Date recognized">
@@ -268,7 +268,7 @@ export default function AddTask({ onAddTask }) {
             <select
               value={repeat}
               onChange={(e) => setRepeat(e.target.value)}
-              className="bg-paper-card border border-sky-soft rounded-xl px-2 py-1 text-xs text-ink focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 cursor-pointer font-semibold"
+              className="bg-paper-card border-2 border-sky-soft rounded-xl px-2.5 py-1.5 text-xs text-sky-deep focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 cursor-pointer font-bold shadow-xs"
             >
               <option value="none">None</option>
               <option value="daily">Daily</option>
@@ -278,10 +278,12 @@ export default function AddTask({ onAddTask }) {
           </div>
         </div>
 
+        {/* Add Task Button — Always Solid Strong Sky Deep Blue */}
         <button
           type="submit"
-          disabled={!title.trim()}
-          className="flex items-center justify-center gap-1.5 bg-sky-deep hover:bg-sky-deep/90 disabled:opacity-40 text-white font-bold px-6 py-2 rounded-xl text-xs transition-all shadow-xs cursor-pointer active:scale-95"
+          className={`flex items-center justify-center gap-1.5 bg-sky-deep text-white font-bold px-6 py-2.5 rounded-xl text-xs transition-all shadow-md border-2 border-sky-deep cursor-pointer active:scale-95 ${
+            !title.trim() ? 'opacity-90 cursor-pointer' : 'hover:bg-sky-deep/90'
+          }`}
         >
           <Plus className="w-4 h-4 stroke-[2.5]" />
           <span>Add Task</span>

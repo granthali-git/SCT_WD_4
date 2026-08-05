@@ -68,6 +68,18 @@ html, body, #root {
   background-color: #FFFFFF !important;
 }
 
+/* Form Inputs & Buttons Theme Enforcers */
+.input-sky {
+  border: 2px solid #BAE6FD !important;
+  background-color: #FFFFFF !important;
+  color: #1E293B !important;
+}
+
+.input-sky:focus {
+  border-color: #0369A1 !important;
+  outline: none !important;
+}
+
 @keyframes pageFadeIn {
   from {
     opacity: 0;

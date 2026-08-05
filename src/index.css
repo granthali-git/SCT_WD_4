@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,18 +6,59 @@
 
 @layer base {
   body {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
+    font-family: 'Quicksand', 'Inter', sans-serif;
+    font-weight: 500;
+    background-color: #F0F6FC;
+    color: #1E293B;
   }
 
-  h1, h2, h3, h4, h5, h6, .app-title, .app-logo, .font-heading {
-    font-family: 'Playfair Display', serif;
+  h1, h2, h3, h4, h5, h6, .app-title, .app-logo, .font-heading, .font-fredoka {
+    font-family: 'Fredoka', 'Quicksand', sans-serif;
     font-weight: 600;
   }
 
   button, input, select, textarea, label, p, span, div {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Quicksand', 'Inter', sans-serif;
   }
+}
+
+/* Explicit Utility Overrides for Sky Blue Theme Guarantee */
+.bg-sky-deep {
+  background-color: #0369A1 !important;
+  color: #FFFFFF !important;
+}
+
+.bg-sky-main {
+  background-color: #0284C7 !important;
+  color: #FFFFFF !important;
+}
+
+.bg-sky-light {
+  background-color: #E0F2FE !important;
+}
+
+.bg-sky-soft {
+  background-color: #BAE6FD !important;
+}
+
+.text-sky-deep {
+  color: #0369A1 !important;
+}
+
+.border-sky-soft {
+  border-color: #BAE6FD !important;
+}
+
+.border-sky-deep {
+  border-color: #0369A1 !important;
+}
+
+.bg-paper {
+  background-color: #F0F6FC !important;
+}
+
+.bg-paper-card {
+  background-color: #FFFFFF !important;
 }
 
 @keyframes pageFadeIn {
@@ -31,73 +72,22 @@
   }
 }
 
+@keyframes pop {
+  0% { transform: scale(0.9); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
 .animate-page-fade-in {
   animation: pageFadeIn 0.45s ease-out forwards;
 }
 
-/* Faint dot-grid overlay pattern */
-.dot-grid-pattern {
-  background-image: radial-gradient(rgba(148, 163, 184, 0.15) 1px, transparent 1px);
-  background-size: 20px 20px;
+.animate-pop {
+  animation: pop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Aquatic Frost grain texture overlay */
-.frost-texture::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.04;
-  background-image:
-    radial-gradient(circle at 1px 1px, rgba(80, 232, 244, 0.8) 0.5px, transparent 0),
-    radial-gradient(circle at 3px 5px, rgba(80, 232, 244, 0.5) 0.4px, transparent 0),
-    radial-gradient(circle at 7px 2px, rgba(199, 248, 254, 0.6) 0.3px, transparent 0),
-    radial-gradient(circle at 5px 8px, rgba(80, 232, 244, 0.4) 0.5px, transparent 0);
-  background-size: 8px 8px, 12px 12px, 9px 9px, 14px 14px;
-}
-
-/* Ice-crack frost lines via CSS clip-path */
-.frost-lines::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background:
-    /* diagonal line 1 — top-left to bottom-right, slightly irregular */
-    linear-gradient(
-      128deg,
-      transparent 0%,
-      transparent 18%,
-      rgba(80, 232, 244, 0.06) 18%,
-      rgba(80, 232, 244, 0.06) 18.15%,
-      transparent 18.15%,
-      transparent 38%,
-      rgba(80, 232, 244, 0.04) 38%,
-      rgba(80, 232, 244, 0.04) 38.12%,
-      transparent 38.12%
-    ),
-    /* diagonal line 2 — top-right to bottom-left */
-    linear-gradient(
-      52deg,
-      transparent 0%,
-      transparent 22%,
-      rgba(80, 232, 244, 0.05) 22%,
-      rgba(80, 232, 244, 0.05) 22.12%,
-      transparent 22.12%,
-      transparent 55%,
-      rgba(80, 232, 244, 0.03) 55%,
-      rgba(80, 232, 244, 0.03) 55.1%,
-      transparent 55.1%
-    ),
-    /* diagonal line 3 — subtle shallow angle */
-    linear-gradient(
-      160deg,
-      transparent 0%,
-      transparent 60%,
-      rgba(80, 232, 244, 0.04) 60%,
-      rgba(80, 232, 244, 0.04) 60.1%,
-      transparent 60.1%
-    );
+/* Printable off-white paper grid texture overlay */
+.printable-paper-pattern {
+  background-image: radial-gradient(rgba(2, 132, 199, 0.25) 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
 }

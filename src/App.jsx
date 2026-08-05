@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Zap, Settings, HelpCircle, BarChart3, CheckCircle2, AlertCircle, Clock } from 'lucide-react';
+import { Settings, BarChart3, Sparkles, Star } from 'lucide-react';
 import AddTask from './components/AddTask';
 import TaskList from './components/TaskList';
 import TaskTabs from './components/TaskTabs';
@@ -68,37 +68,37 @@ tomorrow.setHours(10, 0, 0, 0);
 const INITIAL_TASKS = [
   {
     id: '1',
-    title: 'Submit quarterly budget review',
-    category: 'Work',
+    title: 'Complete chapter review & planner notes',
+    category: 'Study',
     priority: 'High',
     dueDate: yesterday.toISOString().slice(0, 16),
     repeat: 'none',
     completed: false,
     createdAt: new Date().toISOString(),
     subtasks: [
-      { id: '1-1', text: 'Gather department expense reports', done: true },
-      { id: '1-2', text: 'Compare Q2 vs Q3 variance', done: true },
-      { id: '1-3', text: 'Draft summary presentation', done: false },
+      { id: '1-1', text: 'Read Biology chapter 4 summary', done: true },
+      { id: '1-2', text: 'Highlight key diagrams & terms', done: true },
+      { id: '1-3', text: 'Draft flashcards for review', done: false },
     ],
   },
   {
     id: '2',
-    title: 'Water indoor plants & garden',
-    category: 'Health',
+    title: 'Water indoor plants & study space desk',
+    category: 'Personal',
     priority: 'Medium',
     dueDate: todayLater.toISOString().slice(0, 16),
     repeat: 'daily',
     completed: false,
     createdAt: new Date().toISOString(),
     subtasks: [
-      { id: '2-1', text: 'Living room monstera', done: true },
-      { id: '2-2', text: 'Balcony herbs', done: false },
+      { id: '2-1', text: 'Desk succulent & window ivy', done: true },
+      { id: '2-2', text: 'Organize pastel pens', done: false },
     ],
   },
   {
     id: '3',
-    title: 'Design TaskFlow UI concept',
-    category: 'Study',
+    title: 'Design student planner UI mockups',
+    category: 'Work',
     priority: 'High',
     dueDate: tomorrow.toISOString().slice(0, 16),
     repeat: 'weekly',
@@ -108,8 +108,8 @@ const INITIAL_TASKS = [
   },
   {
     id: '4',
-    title: 'Set up React + Vite project shell',
-    category: 'Work',
+    title: 'Set up daily goal tracker notebook',
+    category: 'Health',
     priority: 'Low',
     dueDate: '',
     repeat: 'none',
@@ -361,32 +361,48 @@ function App() {
   }).length;
 
   return (
-    <div className="min-h-screen bg-navy text-xs sm:text-sm flex flex-col items-center transition-all pb-12">
+    <div className="min-h-screen bg-paper printable-paper-pattern text-ink text-xs sm:text-sm flex flex-col items-center relative overflow-x-hidden pb-12 transition-all">
       {/* 1. STICKY HEADER BAR */}
-      <header className="sticky top-0 z-40 w-full bg-navy-card border-b border-navy-light px-4 py-3 shadow-md">
+      <header className="sticky top-0 z-40 w-full bg-sky-light/95 backdrop-blur-md border-b-2 border-sky-soft px-4 py-3 shadow-xs">
         <div className="max-w-4xl mx-auto flex items-center justify-between gap-4 flex-wrap sm:flex-nowrap">
-          {/* Left: Icon Badge & App Title */}
-          <div className="flex items-center gap-3">
-            <div className="bg-orange p-2 rounded-lg text-white shadow-sm flex items-center justify-center">
-              <Zap className="w-5 h-5 fill-current" />
-            </div>
-            <div>
-              <h1 className="font-serif font-bold text-xl text-white tracking-tight leading-none">
-                TaskFlow
+          {/* Top-Left Rotated Sticky Note */}
+          <div className="hidden sm:block bg-sky-light text-sky-deep border-2 border-sky-soft rounded-xl px-3 py-2 text-xs font-bold transform -rotate-2 shadow-xs select-none">
+            Small steps every day lead to big results ✨
+          </div>
+
+          {/* Centered App Title & Subtitle Badge */}
+          <div className="text-center flex-1">
+            <div className="flex items-center justify-center gap-2">
+              <Sparkles className="w-5 h-5 text-sky-deep" />
+              <h1 className="font-fredoka font-bold text-2xl sm:text-3xl text-sky-deep tracking-wider uppercase leading-none drop-shadow-xs">
+                STUDENT TO DO LIST
               </h1>
-              <p className="text-slate-400 text-xs mt-0.5">Corporate Task Manager</p>
+              <Star className="w-5 h-5 text-sky-deep fill-sky-deep" />
+            </div>
+            <div className="mt-1.5">
+              <span className="bg-sky-soft/80 text-sky-deep border border-sky-soft rounded-full px-4 py-1 text-xs italic font-bold inline-block shadow-xs">
+                Plan today, achieve tomorrow ♡
+              </span>
             </div>
           </div>
 
-          {/* Center: Pill Tabs */}
-          <div className="flex items-center gap-1 bg-navy-light/60 p-1 rounded-full border border-navy-light">
+          {/* Top-Right Rotated Sticky Note */}
+          <div className="hidden sm:block bg-sky-light text-sky-deep border-2 border-sky-soft rounded-xl px-3 py-2 text-xs font-bold transform rotate-2 shadow-xs select-none">
+            Focus · Plan · Work · Stay consistent · Succeed 🌟
+          </div>
+        </div>
+
+        {/* Navigation & Stat Row */}
+        <div className="max-w-4xl mx-auto flex items-center justify-between gap-3 mt-2.5 pt-2.5 border-t border-sky-soft">
+          {/* Pill Tabs */}
+          <div className="flex items-center gap-1.5 bg-paper-card p-1 rounded-xl border border-sky-soft shadow-xs">
             <button
               type="button"
               onClick={() => setHeaderTab('tasks')}
-              className={`px-3.5 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+              className={`px-4 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 headerTab === 'tasks'
-                  ? 'bg-orange text-white shadow-sm font-sans'
-                  : 'text-slate-300 hover:text-white font-sans'
+                  ? 'bg-sky-deep text-white shadow-xs font-sans'
+                  : 'text-sky-deep hover:bg-sky-light font-sans'
               }`}
             >
               Tasks
@@ -394,30 +410,30 @@ function App() {
             <button
               type="button"
               onClick={() => setHeaderTab('analytics')}
-              className={`px-3.5 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+              className={`px-4 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                 headerTab === 'analytics'
-                  ? 'bg-orange text-white shadow-sm font-sans'
-                  : 'text-slate-300 hover:text-white font-sans'
+                  ? 'bg-sky-deep text-white shadow-xs font-sans'
+                  : 'text-sky-deep hover:bg-sky-light font-sans'
               }`}
             >
               Analytics
             </button>
           </div>
 
-          {/* Right: Stat Badges & Settings */}
+          {/* Stat Badges & Settings */}
           <div className="flex items-center gap-2">
-            <div className="hidden sm:flex items-center gap-2 font-sans text-xs bg-navy/40 px-3 py-1.5 rounded-lg border border-navy-light">
-              <span className="text-orange-light font-semibold">{totalPending} pending</span>
-              <div className="border-r border-navy-light h-3.5 mx-0.5" />
-              <span className="text-emerald-400 font-semibold">{totalCompleted} completed</span>
-              <div className="border-r border-navy-light h-3.5 mx-0.5" />
-              <span className="text-rose-400 font-semibold">{totalOverdue} overdue</span>
+            <div className="hidden sm:flex items-center gap-2 font-sans text-xs bg-paper-card border border-sky-soft px-3 py-1 rounded-full shadow-xs">
+              <span className="text-sky-deep font-bold">{totalPending} pending</span>
+              <div className="border-r border-sky-soft h-3.5 mx-0.5" />
+              <span className="text-emerald-700 font-bold">{totalCompleted} completed</span>
+              <div className="border-r border-sky-soft h-3.5 mx-0.5" />
+              <span className="text-rose-600 font-bold">{totalOverdue} overdue</span>
             </div>
 
             <button
               type="button"
               onClick={() => setIsShortcutsModalOpen(true)}
-              className="p-2 text-slate-300 hover:text-white bg-navy-light/80 hover:bg-navy-light rounded-lg transition-colors border border-navy-light cursor-pointer"
+              className="p-1.5 text-sky-deep hover:text-white bg-sky-light hover:bg-sky-deep rounded-xl transition-colors border border-sky-soft cursor-pointer shadow-xs"
               title="Settings & Shortcuts (?)"
             >
               <Settings className="w-4 h-4" />
@@ -427,42 +443,42 @@ function App() {
       </header>
 
       {/* MAIN CONTAINER */}
-      <main className="w-full max-w-2xl px-3 sm:px-6 pt-6 sm:pt-8 space-y-5">
+      <main className="w-full max-w-2xl px-3 sm:px-6 pt-6 sm:pt-8 space-y-5 z-10">
         {/* 2. GREETING SECTION */}
-        <section className="space-y-1 text-left">
-          <h2 className="font-serif font-bold text-2xl sm:text-3xl text-white tracking-tight">
+        <section className="space-y-1 text-left px-1">
+          <h2 className="font-fredoka font-bold text-2xl sm:text-3xl text-sky-deep tracking-tight">
             {greeting.text} {greeting.emoji}
           </h2>
-          <p className="text-slate-400 text-xs sm:text-sm font-sans">
-            You have <span className="text-orange-light font-semibold">{todayPendingCount} tasks pending today</span> ({todayOverdueCount} overdue).
+          <p className="text-ink/80 text-xs sm:text-sm font-sans font-medium">
+            You have <span className="text-sky-deep font-bold">{todayPendingCount} tasks pending today</span> ({todayOverdueCount} overdue).
           </p>
         </section>
 
         {/* 3. MAIN CARD */}
-        <div className="bg-navy-card border border-navy-light shadow-2xl shadow-black/50 rounded-xl p-4 sm:p-6 space-y-5 animate-page-fade-in">
+        <div className="bg-paper-card border-2 border-sky-soft shadow-md shadow-sky-deep/15 rounded-2xl p-4 sm:p-6 space-y-5 animate-page-fade-in">
           {headerTab === 'analytics' ? (
             /* Analytics View */
-            <div className="space-y-4 font-sans text-white">
-              <div className="flex items-center justify-between border-b border-navy-light pb-3">
-                <h3 className="font-serif font-bold text-lg text-white flex items-center gap-2">
-                  <BarChart3 className="w-5 h-5 text-orange" />
-                  Productivity Analytics
+            <div className="space-y-4 font-sans text-ink">
+              <div className="flex items-center justify-between border-b border-sky-soft pb-3">
+                <h3 className="font-fredoka font-bold text-lg text-sky-deep flex items-center gap-2">
+                  <BarChart3 className="w-5 h-5 text-sky-deep" />
+                  Productivity & Goal Analytics
                 </h3>
-                <span className="text-xs text-slate-400">Real-time metrics</span>
+                <span className="text-xs text-sky-deep font-bold">Real-time metrics</span>
               </div>
 
               <div className="grid grid-cols-3 gap-3">
-                <div className="bg-navy-light p-3 rounded-lg border border-navy-light text-center">
-                  <p className="text-xs text-slate-400">Total Pending</p>
-                  <p className="text-xl font-bold text-orange-light mt-1">{totalPending}</p>
+                <div className="bg-sky-light/60 p-3.5 rounded-xl border border-sky-soft text-center shadow-xs">
+                  <p className="text-xs text-ink/70 font-medium">Total Pending</p>
+                  <p className="text-xl font-bold text-sky-deep mt-1">{totalPending}</p>
                 </div>
-                <div className="bg-navy-light p-3 rounded-lg border border-navy-light text-center">
-                  <p className="text-xs text-slate-400">Total Completed</p>
-                  <p className="text-xl font-bold text-emerald-400 mt-1">{totalCompleted}</p>
+                <div className="bg-sky-light/60 p-3.5 rounded-xl border border-sky-soft text-center shadow-xs">
+                  <p className="text-xs text-ink/70 font-medium">Total Completed</p>
+                  <p className="text-xl font-bold text-emerald-700 mt-1">{totalCompleted}</p>
                 </div>
-                <div className="bg-navy-light p-3 rounded-lg border border-navy-light text-center">
-                  <p className="text-xs text-slate-400">Overdue Rate</p>
-                  <p className="text-xl font-bold text-rose-400 mt-1">
+                <div className="bg-sky-light/60 p-3.5 rounded-xl border border-sky-soft text-center shadow-xs">
+                  <p className="text-xs text-ink/70 font-medium">Overdue Rate</p>
+                  <p className="text-xl font-bold text-rose-600 mt-1">
                     {tasks.length > 0 ? Math.round((totalOverdue / tasks.length) * 100) : 0}%
                   </p>
                 </div>
@@ -489,10 +505,6 @@ function App() {
 
               {/* Search, Filters & Smart Date Tabs */}
               <section className="space-y-3 pt-1">
-                <div className="flex items-center justify-between">
-                  <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 font-sans">Filter & Organize</p>
-                </div>
-
                 <TaskFilterBar
                   searchQuery={searchQuery}
                   onSearchChange={setSearchQuery}
@@ -523,6 +535,16 @@ function App() {
           )}
         </div>
       </main>
+
+      {/* FOOTER BADGE */}
+      <footer className="mt-8 text-center space-y-2 z-10">
+        <div className="inline-block bg-sky-deep text-white border-2 border-sky-soft rounded-full px-6 py-2 font-bold shadow-md">
+          KEEP GROWING 🌸
+        </div>
+        <p className="text-xs italic text-ink/70 font-medium">
+          Every small task completed brings you closer to your big goals.
+        </p>
+      </footer>
 
       {/* Keyboard Shortcuts Help Modal */}
       <ShortcutsModal

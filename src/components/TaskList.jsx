@@ -13,31 +13,20 @@ import {
   Plus,
   Repeat,
   GripVertical,
-  CheckCircle2,
-  Inbox,
+  BookOpen,
+  Sparkles,
 } from 'lucide-react';
 
 const PRIORITIES = [
-  { name: 'Low', color: 'bg-emerald-400', activeBg: 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400 font-semibold ring-1 ring-emerald-500/30', idleBg: 'bg-navy-card text-slate-300 border-navy-light hover:bg-navy-card/80' },
-  { name: 'Medium', color: 'bg-amber-400', activeBg: 'bg-amber-500/10 border-amber-500/40 text-amber-400 font-semibold ring-1 ring-amber-500/30', idleBg: 'bg-navy-card text-slate-300 border-navy-light hover:bg-navy-card/80' },
-  { name: 'High', color: 'bg-rose-500', activeBg: 'bg-rose-500/10 border-rose-500/40 text-rose-400 font-semibold ring-1 ring-rose-500/30', idleBg: 'bg-navy-card text-slate-300 border-navy-light hover:bg-navy-card/80' },
+  { name: 'Low', badge: '3', badgeBg: 'bg-sky-soft text-sky-deep', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-soft shadow-xs', idleBg: 'bg-paper-card text-ink border border-sky-soft hover:bg-sky-light' },
+  { name: 'Medium', badge: '2', badgeBg: 'bg-sky text-white', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-soft shadow-xs', idleBg: 'bg-paper-card text-ink border border-sky-soft hover:bg-sky-light' },
+  { name: 'High', badge: '1', badgeBg: 'bg-sky-deep text-white', activeBg: 'bg-sky-light text-sky-deep font-bold border-2 border-sky-soft shadow-xs', idleBg: 'bg-paper-card text-ink border border-sky-soft hover:bg-sky-light' },
 ];
 
 const PRIORITY_MAP = PRIORITIES.reduce((acc, p) => ({ ...acc, [p.name]: p }), {});
 
-function getCategoryBadgeStyle(category) {
-  switch (category) {
-    case 'Work':
-      return 'bg-violet-500/20 text-violet-300 border border-violet-500/30';
-    case 'Personal':
-      return 'bg-fuchsia-500/20 text-fuchsia-300 border border-fuchsia-500/30';
-    case 'Study':
-      return 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30';
-    case 'Health':
-      return 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
-    default:
-      return 'bg-navy-card text-slate-300 border border-navy-light';
-  }
+function getCategoryBadgeStyle() {
+  return 'bg-sky-light text-sky-deep border border-sky-soft font-bold';
 }
 
 function isSameDay(d1, d2) {
@@ -75,7 +64,7 @@ export default function TaskList({
   totalTasksCount,
   onToggleCompleted,
   onDeleteTask,
-  onUpdateTask,
+  onEditTask,
   onToggleSubtask,
   onReorderTasks,
 }) {
@@ -113,7 +102,8 @@ export default function TaskList({
 
   const saveEditing = (task) => {
     if (!editFormData.title.trim()) return;
-    onUpdateTask(task.id, {
+    onEditTask({
+      ...task,
       title: editFormData.title.trim(),
       category: editFormData.category,
       priority: editFormData.priority,
@@ -201,31 +191,31 @@ export default function TaskList({
     setDragOverIndex(null);
   };
 
-  // Render Empty State
+  // Sticky-note callout style Empty State
   if (tasks.length === 0) {
     return (
-      <div className="bg-navy-light border border-dashed border-navy-light rounded-lg p-8 sm:p-10 flex flex-col items-center justify-center text-center font-sans">
-        <div className="p-3 bg-navy-card rounded-lg border border-navy-light mb-3 shadow-inner">
+      <div className="bg-sky-light border-2 border-sky-soft rounded-2xl p-8 sm:p-10 flex flex-col items-center justify-center text-center font-sans shadow-xs space-y-2.5">
+        <div className="p-3 bg-paper-card rounded-2xl border border-sky-soft mb-1 shadow-xs">
           {totalTasksCount === 0 ? (
-            <Inbox className="w-6 h-6 text-slate-400" />
+            <BookOpen className="w-8 h-8 text-sky-deep" />
           ) : (
-            <CheckCircle2 className="w-6 h-6 text-emerald-400" />
+            <Sparkles className="w-8 h-8 text-sky-deep" />
           )}
         </div>
-        <h3 className="font-serif font-bold text-white text-sm">
-          {totalTasksCount === 0 ? 'No tasks yet' : 'All tasks completed'}
+        <h3 className="font-fredoka font-bold text-lg text-sky-deep">
+          {totalTasksCount === 0 ? 'No tasks yet — plan your day! 📝' : 'All tasks completed for today! ✨'}
         </h3>
-        <p className="text-xs text-slate-400 mt-1 max-w-xs">
+        <p className="text-xs text-ink/70 max-w-xs font-semibold">
           {totalTasksCount === 0
-            ? 'Add your first task above to start organizing.'
-            : 'You have cleared all active tasks in this view.'}
+            ? 'Add your first task above to keep your student to-do list organized.'
+            : 'You cleared all active tasks in this view. Great job! 🌟'}
         </p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-2.5 font-sans">
+    <div className="space-y-3 font-sans">
       {tasks.map((task, index) => {
         const isEditing = editingTaskId === task.id;
         const isDeleting = deletingTaskId === task.id;
@@ -245,11 +235,11 @@ export default function TaskList({
           return (
             <div
               key={task.id}
-              className="bg-navy-card border border-navy-light rounded-lg p-3.5 space-y-3"
+              className="bg-paper-card border-2 border-sky-soft rounded-2xl p-4 space-y-3.5 shadow-xs"
             >
-              <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                <Pencil className="w-3.5 h-3.5 text-orange" />
-                <span>Editing Task</span>
+              <div className="bg-sky-light text-sky-deep rounded-lg px-3 py-1 font-bold text-xs inline-flex items-center gap-1.5 border border-sky-soft">
+                <Pencil className="w-3.5 h-3.5 text-sky-deep" />
+                <span>Editing Goal</span>
               </div>
 
               {/* Edit Title Input */}
@@ -257,13 +247,13 @@ export default function TaskList({
                 type="text"
                 value={editFormData.title}
                 onChange={(e) => setEditFormData({ ...editFormData, title: e.target.value })}
-                className="w-full bg-navy-light border border-navy-light rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30"
+                className="w-full bg-paper-card border border-sky-soft rounded-xl px-3.5 py-2 text-xs text-ink font-semibold focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30"
               />
 
               {/* Edit Subtasks Checklist */}
-              <div className="bg-navy-light border border-navy-light rounded-lg p-3 space-y-2">
-                <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                  <ListChecks className="w-3.5 h-3.5 text-orange" />
+              <div className="bg-sky-light/40 border border-sky-soft rounded-xl p-3 space-y-2">
+                <div className="text-[11px] font-bold uppercase tracking-wider text-sky-deep flex items-center gap-1.5">
+                  <ListChecks className="w-3.5 h-3.5 text-sky-deep" />
                   <span>Subtasks / Checklist</span>
                 </div>
 
@@ -279,32 +269,32 @@ export default function TaskList({
                       }
                     }}
                     placeholder="Add a new subtask..."
-                    className="flex-1 bg-navy-card border border-navy-light rounded px-2.5 py-1 text-xs text-white focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30"
+                    className="flex-1 bg-paper-card border border-sky-soft rounded-lg px-3 py-1 text-xs text-ink focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 font-medium"
                   />
                   <button
                     type="button"
                     onClick={handleAddEditSubtask}
                     aria-label="Add subtask"
                     disabled={!editSubtaskInput.trim()}
-                    className="bg-navy-light hover:bg-navy-light/80 text-white disabled:opacity-40 p-1 rounded border border-navy-light text-xs cursor-pointer"
+                    className="bg-sky-deep hover:bg-sky-deep/90 text-white disabled:opacity-40 p-1 rounded-lg border border-sky-deep text-xs cursor-pointer font-bold"
                   >
                     <Plus className="w-4 h-4" />
                   </button>
                 </div>
 
                 {editFormData.subtasks.length > 0 && (
-                  <ul className="space-y-1 pt-1">
+                  <ul className="space-y-1.5 pt-1">
                     {editFormData.subtasks.map((sub) => (
                       <li
                         key={sub.id}
-                        className="flex items-center justify-between bg-navy-card border border-navy-light px-2.5 py-1 rounded text-xs text-white"
+                        className="flex items-center justify-between bg-paper-card border border-sky-soft px-3 py-1 rounded-lg text-xs text-ink font-medium"
                       >
                         <span className="truncate">{sub.text}</span>
                         <button
                           type="button"
                           onClick={() => handleRemoveEditSubtask(sub.id)}
                           aria-label={`Remove subtask ${sub.text}`}
-                          className="text-slate-400 hover:text-rose-400 p-0.5 rounded transition-colors ml-2 cursor-pointer"
+                          className="text-ink/50 hover:text-rose-600 p-0.5 rounded transition-colors ml-2 cursor-pointer"
                         >
                           <X className="w-3.5 h-3.5" />
                         </button>
@@ -318,22 +308,22 @@ export default function TaskList({
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                 {/* Category Dropdown */}
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Category:</span>
+                  <span className="text-[11px] uppercase tracking-wider text-sky-deep font-bold">Category:</span>
                   <select
                     value={editFormData.category}
                     onChange={(e) => setEditFormData({ ...editFormData, category: e.target.value })}
-                    className="bg-navy-light border border-navy-light rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 cursor-pointer"
+                    className="bg-paper-card border border-sky-soft rounded-xl px-2.5 py-1 text-xs text-sky-deep font-bold focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 cursor-pointer"
                   >
-                    <option value="Work" className="bg-navy-card text-white">Work</option>
-                    <option value="Personal" className="bg-navy-card text-white">Personal</option>
-                    <option value="Study" className="bg-navy-card text-white">Study</option>
-                    <option value="Health" className="bg-navy-card text-white">Health</option>
+                    <option value="Work">Work</option>
+                    <option value="Personal">Personal</option>
+                    <option value="Study">Study</option>
+                    <option value="Health">Health</option>
                   </select>
                 </div>
 
                 {/* Priority Selector */}
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Priority:</span>
+                  <span className="text-[11px] uppercase tracking-wider text-sky-deep font-bold">Priority:</span>
                   {PRIORITIES.map((p) => {
                     const isSelected = editFormData.priority === p.name;
                     return (
@@ -341,11 +331,13 @@ export default function TaskList({
                         key={p.name}
                         type="button"
                         onClick={() => setEditFormData({ ...editFormData, priority: p.name })}
-                        className={`px-2 py-0.5 rounded text-xs border flex items-center gap-1 transition-all cursor-pointer ${
+                        className={`px-2.5 py-0.5 rounded-xl text-xs flex items-center gap-1.5 transition-all cursor-pointer ${
                           isSelected ? p.activeBg : p.idleBg
                         }`}
                       >
-                        <span className={`w-1.5 h-1.5 rounded-xs ${p.color}`} />
+                        <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-bold ${p.badgeBg}`}>
+                          {p.badge}
+                        </span>
                         <span>{p.name}</span>
                       </button>
                     );
@@ -354,31 +346,31 @@ export default function TaskList({
               </div>
 
               {/* Bottom Row: Due Date, Repeat & Actions */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-navy-light">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2.5 border-t border-sky-soft">
                 <div className="flex items-center gap-3 flex-wrap">
                   <div className="flex items-center gap-1.5">
-                    <Calendar className="w-3.5 h-3.5 text-slate-400" />
-                    <label className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Due Date:</label>
+                    <Calendar className="w-3.5 h-3.5 text-sky-deep" />
+                    <label className="text-[11px] uppercase tracking-wider text-sky-deep font-bold">Due Date:</label>
                     <input
                       type="datetime-local"
                       value={editFormData.dueDate}
                       onChange={(e) => setEditFormData({ ...editFormData, dueDate: e.target.value })}
-                      className="bg-navy-light border border-navy-light rounded px-2.5 py-1 text-xs text-white focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30"
+                      className="bg-paper-card border border-sky-soft rounded-xl px-2.5 py-1 text-xs text-ink focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 font-semibold"
                     />
                   </div>
 
                   <div className="flex items-center gap-1.5">
-                    <Repeat className="w-3.5 h-3.5 text-slate-400" />
-                    <label className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold">Repeat:</label>
+                    <Repeat className="w-3.5 h-3.5 text-sky-deep" />
+                    <label className="text-[11px] uppercase tracking-wider text-sky-deep font-bold">Repeat:</label>
                     <select
                       value={editFormData.repeat}
                       onChange={(e) => setEditFormData({ ...editFormData, repeat: e.target.value })}
-                      className="bg-navy-light border border-navy-light rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-orange focus:ring-1 focus:ring-orange/30 cursor-pointer"
+                      className="bg-paper-card border border-sky-soft rounded-xl px-2 py-1 text-xs text-ink focus:outline-none focus:border-sky-deep focus:ring-2 focus:ring-sky/30 cursor-pointer font-semibold"
                     >
-                      <option value="none" className="bg-navy-card text-white">None</option>
-                      <option value="daily" className="bg-navy-card text-white">Daily</option>
-                      <option value="weekly" className="bg-navy-card text-white">Weekly</option>
-                      <option value="monthly" className="bg-navy-card text-white">Monthly</option>
+                      <option value="none">None</option>
+                      <option value="daily">Daily</option>
+                      <option value="weekly">Weekly</option>
+                      <option value="monthly">Monthly</option>
                     </select>
                   </div>
                 </div>
@@ -387,7 +379,7 @@ export default function TaskList({
                   <button
                     type="button"
                     onClick={cancelEditing}
-                    className="flex items-center gap-1 bg-navy-light hover:bg-navy-light/80 border border-navy-light text-slate-300 font-medium px-3 py-1 rounded text-xs transition-all cursor-pointer"
+                    className="flex items-center gap-1 bg-sky-light hover:bg-sky-soft/60 border border-sky-soft text-sky-deep font-bold px-3.5 py-1 rounded-xl text-xs transition-all cursor-pointer"
                   >
                     <X className="w-3.5 h-3.5" />
                     <span>Cancel</span>
@@ -396,7 +388,7 @@ export default function TaskList({
                     type="button"
                     onClick={() => saveEditing(task)}
                     disabled={!editFormData.title.trim()}
-                    className="flex items-center gap-1 bg-orange hover:bg-orange/90 disabled:opacity-40 text-white font-semibold px-3 py-1 rounded text-xs transition-all shadow-md shadow-orange/20 cursor-pointer"
+                    className="flex items-center gap-1 bg-sky-deep hover:bg-sky-deep/90 disabled:opacity-40 text-white font-bold px-4 py-1 rounded-xl text-xs transition-all shadow-xs cursor-pointer"
                   >
                     <Save className="w-3.5 h-3.5" />
                     <span>Save</span>
@@ -413,21 +405,21 @@ export default function TaskList({
             onDragOver={(e) => handleDragOver(e, index)}
             onDragLeave={() => handleDragLeave(index)}
             onDrop={(e) => handleDrop(e, index)}
-            className={`relative bg-navy-light rounded-lg border border-navy-light p-3.5 shadow-xs hover:border-orange/40 hover:-translate-y-0.5 transition-all duration-200 ${
+            className={`relative bg-paper-card rounded-xl border-b-2 border-dashed border-sky-soft pb-3.5 shadow-xs hover:border-sky-deep/60 transition-all duration-200 ${
               isDeleting
                 ? 'opacity-0 scale-95 pointer-events-none'
                 : isDragging
-                ? 'opacity-40 border-dashed border-2 border-orange bg-orange/10'
+                ? 'opacity-40 border-dashed border-2 border-sky-deep bg-sky-light'
                 : isDragOver
-                ? 'border-t-2 border-t-orange bg-orange/5 shadow-sm'
+                ? 'border-t-2 border-t-sky-deep bg-sky-light/40 shadow-xs'
                 : task.completed
-                ? 'group opacity-60 bg-navy-light/60 hover:translate-y-0'
+                ? 'group opacity-60 bg-paper-card/70'
                 : 'group'
             }`}
           >
-            <div className="flex items-start sm:items-center justify-between gap-3">
-              {/* Left Side: Drag Handle, Checkbox & Task Details */}
-              <div className="flex items-start sm:items-center gap-2.5 flex-1 min-w-0">
+            <div className="flex items-start sm:items-center justify-between gap-3 pt-1.5">
+              {/* Left Side: Drag Handle, Soft Square Checkbox & Task Details */}
+              <div className="flex items-start sm:items-center gap-3 flex-1 min-w-0">
                 {/* Drag Handle Icon */}
                 <div
                   draggable={!isEditing}
@@ -435,42 +427,44 @@ export default function TaskList({
                   onDragEnd={handleDragEnd}
                   role="button"
                   aria-label={`Drag to reorder task: ${task.title}`}
-                  className="cursor-grab active:cursor-grabbing p-0.5 -ml-1 text-slate-400 hover:text-white transition-colors flex-shrink-0 touch-none"
+                  className="cursor-grab active:cursor-grabbing p-0.5 -ml-1 text-sky-deep/60 hover:text-sky-deep transition-colors flex-shrink-0 touch-none"
                   title="Drag to reorder"
                 >
-                  <GripVertical className="w-3.5 h-3.5" />
+                  <GripVertical className="w-4 h-4" />
                 </div>
 
-                {/* Circular Checkbox */}
+                {/* Soft Square (rounded-md) Checkbox */}
                 <button
                   type="button"
                   onClick={() => onToggleCompleted(task.id)}
                   aria-label={task.completed ? `Mark "${task.title}" as incomplete` : `Mark "${task.title}" as complete`}
-                  className={`mt-0.5 sm:mt-0 flex-shrink-0 w-4 h-4 rounded border transition-all flex items-center justify-center focus:outline-none focus:ring-1 focus:ring-orange/30 cursor-pointer ${
+                  className={`mt-0.5 sm:mt-0 flex-shrink-0 w-5 h-5 rounded-md border-2 transition-all duration-200 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-sky/30 cursor-pointer ${
                     task.completed
-                      ? 'bg-orange border-orange text-white'
-                      : 'border-navy-light hover:border-orange bg-navy-card'
+                      ? 'bg-sky-deep border-sky-deep text-white animate-pop'
+                      : 'border-sky-deep bg-paper-card hover:bg-sky-light active:scale-95'
                   }`}
                 >
-                  {task.completed && <Check className="w-3 h-3 stroke-[3]" />}
+                  {task.completed && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                 </button>
 
                 {/* Main Content Area */}
                 <div className="flex-1 min-w-0">
                   <div className="space-y-1">
-                    {/* Title row with Priority Dot */}
+                    {/* Title row with Priority Number Badge */}
                     <div className="flex items-center gap-2">
-                      {/* Priority Dot */}
+                      {/* Priority Numbered Circular Badge */}
                       <span
-                        className={`w-2 h-2 rounded-xs flex-shrink-0 ${prioStyle.color}`}
+                        className={`w-4 h-4 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-bold ${prioStyle.badgeBg}`}
                         title={`Priority: ${task.priority}`}
-                      />
+                      >
+                        {prioStyle.badge}
+                      </span>
 
                       <h3
-                        className={`text-xs font-semibold select-none transition-all ${
+                        className={`text-xs sm:text-sm select-none transition-all ${
                           task.completed
-                            ? 'line-through text-slate-500 font-normal'
-                            : 'text-white'
+                            ? 'line-through text-ink/50 font-normal'
+                            : 'text-ink font-bold'
                         }`}
                       >
                         {task.title}
@@ -481,7 +475,7 @@ export default function TaskList({
                     <div className="flex items-center gap-2 flex-wrap text-[11px] pt-0.5">
                       {/* Category Badge */}
                       <span
-                        className={`text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded font-medium ${getCategoryBadgeStyle(task.category)}`}
+                        className={`text-[10px] uppercase tracking-wider px-2.5 py-0.5 rounded-full font-bold ${getCategoryBadgeStyle()}`}
                       >
                         {task.category}
                       </span>
@@ -489,10 +483,10 @@ export default function TaskList({
                       {/* Recurring Repeat Badge */}
                       {task.repeat && task.repeat !== 'none' && (
                         <span
-                          className="bg-orange/10 text-orange-light border border-orange/20 text-[10px] px-1.5 py-0.5 rounded font-medium flex items-center gap-1"
+                          className="bg-sky-light text-sky-deep border border-sky-soft text-[10px] px-2 py-0.5 rounded-full font-bold flex items-center gap-1"
                           title={`Recurring ${task.repeat}`}
                         >
-                          <Repeat className="w-3 h-3 text-orange" />
+                          <Repeat className="w-3 h-3 text-sky-deep" />
                           <span className="capitalize">{task.repeat}</span>
                         </span>
                       )}
@@ -500,15 +494,15 @@ export default function TaskList({
                       {/* Due Date Indicator */}
                       {dueInfo && (
                         <span
-                          className={`flex items-center gap-1 text-[11px] font-medium ${
+                          className={`flex items-center gap-1 text-[11px] font-bold ${
                             dueInfo.isOverdue && !task.completed
-                              ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded font-semibold'
+                              ? 'bg-rose-100 text-rose-800 border border-rose-200 text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full'
                               : dueInfo.isToday && !task.completed
-                              ? 'text-amber-400 font-medium'
-                              : 'text-slate-400'
+                              ? 'text-sky-deep font-bold'
+                              : 'text-ink/70'
                           }`}
                         >
-                          <Clock className="w-3 h-3" />
+                          <Clock className="w-3 h-3 text-sky-deep" />
                           <span>{dueInfo.label}</span>
                         </span>
                       )}
@@ -523,7 +517,7 @@ export default function TaskList({
                   type="button"
                   onClick={() => startEditing(task)}
                   aria-label={`Edit task: ${task.title}`}
-                  className="p-1 rounded text-slate-400 hover:text-orange-light hover:bg-orange/10 transition-colors cursor-pointer"
+                  className="p-1 rounded-xl text-sky-deep hover:bg-sky-light transition-colors cursor-pointer"
                   title="Edit task"
                 >
                   <Pencil className="w-3.5 h-3.5" />
@@ -532,7 +526,7 @@ export default function TaskList({
                   type="button"
                   onClick={() => handleDelete(task.id)}
                   aria-label={`Delete task: ${task.title}`}
-                  className="p-1 rounded text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors cursor-pointer"
+                  className="p-1 rounded-xl text-ink/50 hover:text-rose-600 hover:bg-rose-100 transition-colors cursor-pointer"
                   title="Delete task"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
@@ -542,20 +536,20 @@ export default function TaskList({
 
             {/* Subtask Progress & Expand Button */}
             {totalSubtasks > 0 && (
-              <div className="mt-2.5 pt-2 border-t border-navy-light flex items-center justify-between gap-3">
+              <div className="mt-2.5 pt-2 border-t border-dashed border-sky-soft flex items-center justify-between gap-3">
                 <div
                   onClick={() => toggleExpand(task.id)}
                   className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer select-none group/prog"
                 >
                   {/* Progress Text */}
-                  <span className="text-[11px] font-semibold text-slate-400 group-hover/prog:text-orange-light transition-colors">
+                  <span className="text-[11px] font-bold text-sky-deep group-hover/prog:underline transition-colors">
                     {completedSubtasks}/{totalSubtasks} subtasks
                   </span>
 
                   {/* Mini Progress Bar */}
-                  <div className="w-20 sm:w-28 h-1.5 bg-navy/60 rounded-full overflow-hidden flex-shrink-0 border border-navy-light">
+                  <div className="w-20 sm:w-28 h-2.5 bg-sky-light border border-sky-soft rounded-full overflow-hidden flex-shrink-0">
                     <div
-                      className="h-full bg-orange rounded-full transition-all duration-300 shadow-sm shadow-orange/30"
+                      className="h-full bg-sky-deep rounded-full transition-all duration-300 shadow-xs"
                       style={{ width: `${subtaskPercentage}%` }}
                     />
                   </div>
@@ -565,19 +559,19 @@ export default function TaskList({
                 <button
                   type="button"
                   onClick={() => toggleExpand(task.id)}
-                  className="flex items-center gap-1 text-[11px] text-slate-400 hover:text-orange-light font-medium px-1.5 py-0.5 rounded hover:bg-orange/10 transition-colors cursor-pointer"
+                  className="flex items-center gap-1 text-[11px] text-sky-deep font-bold px-2 py-0.5 rounded-xl hover:bg-sky-light transition-colors cursor-pointer"
                   aria-label={isExpanded ? 'Collapse subtasks' : 'Expand subtasks'}
                 >
-                  {isExpanded ? <ChevronUp className="w-3.5 h-3.5 text-orange" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                  {isExpanded ? <ChevronUp className="w-3.5 h-3.5 text-sky-deep" /> : <ChevronDown className="w-3.5 h-3.5 text-sky-deep" />}
                 </button>
               </div>
             )}
 
             {/* Expanded Subtask Checklist */}
             {isExpanded && totalSubtasks > 0 && (
-              <div className="mt-2 bg-navy-card border border-navy-light rounded-lg p-2.5 space-y-1.5">
-                <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-1 flex items-center gap-1">
-                  <ListChecks className="w-3 h-3 text-orange" />
+              <div className="mt-2 bg-sky-light/40 border border-sky-soft rounded-xl p-3 space-y-1.5">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-sky-deep mb-1 flex items-center gap-1">
+                  <ListChecks className="w-3 h-3 text-sky-deep" />
                   Checklist
                 </div>
                 {subtasks.map((sub) => (
@@ -586,7 +580,7 @@ export default function TaskList({
                     onClick={() => {
                       if (onToggleSubtask) onToggleSubtask(task.id, sub.id);
                     }}
-                    className="flex items-center gap-2 p-1 rounded hover:bg-navy-light cursor-pointer transition-colors group/sub"
+                    className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-paper-card cursor-pointer transition-colors group/sub"
                   >
                     {/* Subtask Checkbox */}
                     <button
@@ -596,10 +590,10 @@ export default function TaskList({
                         if (onToggleSubtask) onToggleSubtask(task.id, sub.id);
                       }}
                       aria-label={sub.done ? `Mark subtask "${sub.text}" as incomplete` : `Mark subtask "${sub.text}" as complete`}
-                      className={`w-3.5 h-3.5 rounded border transition-all flex-shrink-0 flex items-center justify-center cursor-pointer ${
+                      className={`w-4 h-4 rounded-md border-2 transition-all flex-shrink-0 flex items-center justify-center cursor-pointer ${
                         sub.done
-                          ? 'bg-orange border-orange text-white'
-                          : 'border-navy-light bg-navy-light group-hover/sub:border-orange'
+                          ? 'bg-sky-deep border-sky-deep text-white animate-pop'
+                          : 'border-sky-deep bg-paper-card group-hover/sub:border-sky-deep'
                       }`}
                     >
                       {sub.done && <Check className="w-2.5 h-2.5 stroke-[3]" />}
@@ -607,8 +601,8 @@ export default function TaskList({
 
                     {/* Subtask Text */}
                     <span
-                      className={`text-xs font-medium select-none transition-all ${
-                        sub.done ? 'line-through text-slate-500' : 'text-white'
+                      className={`text-xs font-semibold select-none transition-all ${
+                        sub.done ? 'line-through text-ink/50' : 'text-ink'
                       }`}
                     >
                       {sub.text}

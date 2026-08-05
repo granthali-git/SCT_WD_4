@@ -7,20 +7,35 @@ export default {
   theme: {
     extend: {
       fontFamily: {
+        fredoka: ['Fredoka', 'Quicksand', 'sans-serif'],
+        heading: ['Fredoka', 'Quicksand', 'sans-serif'],
+        sans: ['Quicksand', 'Inter', 'sans-serif'],
         serif: ['"Playfair Display"', 'serif'],
-        sans: ['Inter', 'sans-serif'],
-        heading: ['"Playfair Display"', 'serif'],
       },
       colors: {
-        navy: {
-          DEFAULT: '#1A1235',
-          card: '#241B47',
-          light: '#332560',
+        paper: {
+          DEFAULT: '#F0F6FC',
+          card: '#FFFFFF',
+          line: '#BAE6FD',
         },
-        orange: {
-          DEFAULT: '#2DD4BF',
-          light: '#5EEAD4',
+        sky: {
+          50: '#F0F9FF',
+          100: '#E0F2FE',
+          200: '#BAE6FD',
+          300: '#7DD3FC',
+          400: '#38BDF8',
+          500: '#0EA5E9',
+          600: '#0284C7',
+          700: '#0369A1',
+          800: '#075985',
+          900: '#0C4A6E',
+          light: '#E0F2FE',
+          soft: '#BAE6FD',
+          DEFAULT: '#0EA5E9',
+          main: '#0284C7',
+          deep: '#0369A1',
         },
+        ink: '#1E293B',
       },
     },
   },

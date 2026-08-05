@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Settings, BarChart3, Sparkles, Star } from 'lucide-react';
+import {
+  Settings,
+  BarChart3,
+  Sparkles,
+  Star,
+  BookOpen,
+  Pencil,
+  Coffee,
+  Cloud,
+  AlarmClock,
+  Smile,
+} from 'lucide-react';
 import AddTask from './components/AddTask';
 import TaskList from './components/TaskList';
 import TaskTabs from './components/TaskTabs';
@@ -362,6 +373,14 @@ function App() {
 
   return (
     <div className="min-h-screen bg-paper printable-paper-pattern text-ink text-xs sm:text-sm flex flex-col items-center relative overflow-x-hidden pb-12 transition-all">
+      {/* DECORATIVE PLANNER DOODLES / ICONS ON LEFT AND RIGHT SIDES */}
+      <BookOpen className="fixed top-28 left-4 sm:left-12 w-10 h-10 text-sky-deep/30 z-0 pointer-events-none transform -rotate-12 hidden md:block" />
+      <Coffee className="fixed top-[360px] left-6 sm:left-14 w-10 h-10 text-sky-deep/30 z-0 pointer-events-none transform rotate-6 hidden md:block" />
+      <Pencil className="fixed bottom-24 left-5 sm:left-16 w-10 h-10 text-sky-deep/30 z-0 pointer-events-none transform -rotate-45 hidden md:block" />
+      <Cloud className="fixed top-32 right-4 sm:right-12 w-11 h-11 text-sky-deep/30 z-0 pointer-events-none transform rotate-12 hidden md:block" />
+      <AlarmClock className="fixed top-[380px] right-6 sm:right-14 w-10 h-10 text-sky-deep/30 z-0 pointer-events-none transform -rotate-6 hidden md:block" />
+      <Star className="fixed bottom-28 right-5 sm:right-16 w-10 h-10 text-sky-deep/30 fill-sky-deep/20 z-0 pointer-events-none transform rotate-45 hidden md:block" />
+
       {/* 1. STICKY HEADER BAR */}
       <header className="sticky top-0 z-40 w-full bg-sky-light/95 backdrop-blur-md border-b-2 border-sky-soft px-4 py-3 shadow-xs">
         <div className="max-w-4xl mx-auto flex items-center justify-between gap-4 flex-wrap sm:flex-nowrap">
@@ -455,7 +474,7 @@ function App() {
         </section>
 
         {/* 3. MAIN CARD */}
-        <div className="bg-paper-card border-2 border-sky-soft shadow-md shadow-sky-deep/15 rounded-2xl p-4 sm:p-6 space-y-5 animate-page-fade-in">
+        <div className="bg-paper-card border-2 border-sky-soft shadow-md shadow-sky-deep/15 rounded-2xl p-4 sm:p-6 space-y-5 animate-page-fade-in relative z-10">
           {headerTab === 'analytics' ? (
             /* Analytics View */
             <div className="space-y-4 font-sans text-ink">

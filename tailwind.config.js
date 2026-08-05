@@ -16,24 +16,13 @@ export default {
         paper: {
           DEFAULT: '#F0F6FC',
           card: '#FFFFFF',
-          line: '#90CDF4',
+          line: '#9FD3F0',
         },
         sky: {
-          50: '#F0F9FF',
-          100: '#E0F2FE',
-          200: '#BAE6FD',
-          300: '#7DD3FC',
-          400: '#38BDF8',
-          500: '#0EA5E9',
-          600: '#0284C7',
-          700: '#0369A1',
-          800: '#075985',
-          900: '#0C4A6E',
-          light: '#E0F2FE',
-          soft: '#90CDF4',
-          DEFAULT: '#38BDF8',
-          main: '#0284C7',
-          deep: '#0369A1',
+          light: '#D6EBFA',   // richer light blue
+          soft:  '#9FD3F0',   // clearly visible light-medium blue
+          DEFAULT: '#4FA8DD', // strong medium blue
+          deep:  '#1D6FA5',   // bold deep blue
         },
         ink: '#1E293B',
       },

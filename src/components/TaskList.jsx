@@ -79,6 +79,7 @@ export default function TaskList({
   });
   const [editSubtaskInput, setEditSubtaskInput] = useState('');
   const [deletingTaskId, setDeletingTaskId] = useState(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
   const [expandedTaskIds, setExpandedTaskIds] = useState(new Set());
   const [draggedIndex, setDraggedIndex] = useState(null);
   const [dragOverIndex, setDragOverIndex] = useState(null);
@@ -134,11 +135,12 @@ export default function TaskList({
   };
 
   const handleDelete = (id) => {
+    setConfirmDeleteId(null);
     setDeletingTaskId(id);
     setTimeout(() => {
       onDeleteTask(id);
       setDeletingTaskId(null);
-    }, 200);
+    }, 300);
   };
 
   const toggleExpand = (id) => {
@@ -405,9 +407,9 @@ export default function TaskList({
             onDragOver={(e) => handleDragOver(e, index)}
             onDragLeave={() => handleDragLeave(index)}
             onDrop={(e) => handleDrop(e, index)}
-            className={`relative rounded-xl border-2 border-sky-DEFAULT p-3.5 shadow-xs hover:border-sky-deep transition-all duration-200 ${
+            className={`group relative rounded-xl border-2 border-sky-DEFAULT p-3.5 shadow-xs hover:border-sky-deep transition-all duration-300 ${
               isDeleting
-                ? 'opacity-0 scale-95 pointer-events-none'
+                ? 'opacity-0 scale-90 -translate-y-1 transition-all duration-300 pointer-events-none'
                 : isDragging
                 ? 'opacity-40 border-dashed border-2 border-sky-deep bg-sky-light'
                 : isDragOver
@@ -512,26 +514,48 @@ export default function TaskList({
               </div>
 
               {/* Right Side Actions: Edit & Delete */}
-              <div className="flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-150">
-                <button
-                  type="button"
-                  onClick={() => startEditing(task)}
-                  aria-label={`Edit task: ${task.title}`}
-                  className="p-1 rounded-xl text-sky-deep hover:bg-sky-light transition-colors cursor-pointer"
-                  title="Edit task"
-                >
-                  <Pencil className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleDelete(task.id)}
-                  aria-label={`Delete task: ${task.title}`}
-                  className="p-1 rounded-xl text-ink/50 hover:text-rose-600 hover:bg-rose-100 transition-colors cursor-pointer"
-                  title="Delete task"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-              </div>
+              {confirmDeleteId === task.id ? (
+                <div className="flex items-center gap-1.5 bg-rose-50 border border-rose-200 rounded-xl px-2.5 py-1 text-xs font-semibold text-rose-700 animate-page-fade-in flex-shrink-0">
+                  <span className="text-[11px] font-bold text-rose-700 whitespace-nowrap select-none">Are you sure?</span>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(task.id)}
+                    aria-label="Confirm delete task"
+                    className="px-2 py-0.5 bg-rose-500 hover:bg-rose-600 text-white rounded-lg text-[11px] font-bold transition-colors cursor-pointer shadow-2xs"
+                  >
+                    Confirm
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setConfirmDeleteId(null)}
+                    aria-label="Cancel delete task"
+                    className="px-2 py-0.5 bg-sky-light hover:bg-sky-soft text-sky-deep rounded-lg text-[11px] font-bold transition-colors cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-150 flex-shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => startEditing(task)}
+                    aria-label={`Edit task: ${task.title}`}
+                    className="p-1 rounded-xl text-sky-deep hover:bg-sky-light transition-colors cursor-pointer"
+                    title="Edit task"
+                  >
+                    <Pencil className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setConfirmDeleteId(task.id)}
+                    aria-label="Delete task"
+                    className="p-1 rounded-xl text-ink/50 hover:bg-pastel-pink/20 hover:text-rose-500 transition-colors cursor-pointer"
+                    title="Delete task"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Subtask Progress & Expand Button */}

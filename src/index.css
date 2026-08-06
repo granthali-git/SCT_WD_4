@@ -119,3 +119,12 @@ html, body, #root {
   background-size: 22px 22px;
   background-attachment: fixed;
 }
+
+.bg-pastel-pink {
+  background-color: #FFD1DC;
+}
+
+.hover\:bg-pastel-pink\/20:hover {
+  background-color: rgba(255, 209, 220, 0.3) !important;
+}
+

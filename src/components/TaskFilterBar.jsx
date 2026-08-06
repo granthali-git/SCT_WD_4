@@ -1,5 +1,5 @@
 import React from 'react';
-import { Search, Tag, Star, X } from 'lucide-react';
+import { Search, Tag, Star, X, SlidersHorizontal } from 'lucide-react';
 
 export default function TaskFilterBar({
   searchQuery,
@@ -19,7 +19,7 @@ export default function TaskFilterBar({
           <Search className="w-4 h-4 text-white" />
           Filter & Organize
         </span>
-        <Star className="w-4 h-4 fill-current" />
+        <SlidersHorizontal className="w-4 h-4 text-white" />
       </div>
 
       <div className="space-y-2 sm:space-y-0 sm:flex sm:items-center sm:gap-2.5">

@@ -13,6 +13,7 @@ export default {
         serif: ['"Playfair Display"', 'serif'],
       },
       colors: {
+        'pastel-pink': '#FFD1DC',
         paper: {
           DEFAULT: '#EBF5FC',
           card: '#FFFFFF',

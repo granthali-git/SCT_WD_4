@@ -515,32 +515,34 @@ export default function TaskList({
 
               {/* Right Side Actions: Edit & Delete */}
               {confirmDeleteId === task.id ? (
-                <div className="flex items-center gap-1.5 bg-rose-50 border border-rose-200 rounded-xl px-2.5 py-1 text-xs font-semibold text-rose-700 animate-page-fade-in flex-shrink-0">
-                  <span className="text-[11px] font-bold text-rose-700 whitespace-nowrap select-none">Are you sure?</span>
+                <div className="flex items-center gap-1.5 bg-rose-50 border border-rose-200 rounded-xl px-2 py-1 text-xs font-semibold text-rose-700 animate-page-fade-in flex-shrink-0">
+                  <span className="text-[11px] font-bold text-rose-700 whitespace-nowrap select-none">Delete?</span>
                   <button
                     type="button"
                     onClick={() => handleDelete(task.id)}
                     aria-label="Confirm delete task"
-                    className="px-2 py-0.5 bg-rose-500 hover:bg-rose-600 text-white rounded-lg text-[11px] font-bold transition-colors cursor-pointer shadow-2xs"
+                    title="Confirm delete"
+                    className="p-1 bg-rose-500 hover:bg-rose-600 text-white rounded-lg transition-colors cursor-pointer flex items-center justify-center shadow-2xs"
                   >
-                    Confirm
+                    <Check className="w-3.5 h-3.5 stroke-[3]" />
                   </button>
                   <button
                     type="button"
                     onClick={() => setConfirmDeleteId(null)}
                     aria-label="Cancel delete task"
-                    className="px-2 py-0.5 bg-sky-light hover:bg-sky-soft text-sky-deep rounded-lg text-[11px] font-bold transition-colors cursor-pointer"
+                    title="Cancel delete"
+                    className="p-1 bg-sky-light hover:bg-sky-soft text-sky-deep rounded-lg transition-colors cursor-pointer flex items-center justify-center"
                   >
-                    Cancel
+                    <X className="w-3.5 h-3.5 stroke-[3]" />
                   </button>
                 </div>
               ) : (
-                <div className="flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-150 flex-shrink-0">
+                <div className="flex items-center gap-1 opacity-100 flex-shrink-0">
                   <button
                     type="button"
                     onClick={() => startEditing(task)}
                     aria-label={`Edit task: ${task.title}`}
-                    className="p-1 rounded-xl text-sky-deep hover:bg-sky-light transition-colors cursor-pointer"
+                    className="p-1.5 rounded-lg text-sky-deep hover:bg-sky-light transition-colors cursor-pointer"
                     title="Edit task"
                   >
                     <Pencil className="w-3.5 h-3.5" />
@@ -549,7 +551,7 @@ export default function TaskList({
                     type="button"
                     onClick={() => setConfirmDeleteId(task.id)}
                     aria-label="Delete task"
-                    className="p-1 rounded-xl text-ink/50 hover:bg-pastel-pink/20 hover:text-rose-500 transition-colors cursor-pointer"
+                    className="p-1.5 rounded-lg text-ink/60 hover:text-rose-500 hover:bg-rose-50 transition-colors cursor-pointer"
                     title="Delete task"
                   >
                     <Trash2 className="w-3.5 h-3.5" />

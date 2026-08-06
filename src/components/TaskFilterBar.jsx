@@ -61,7 +61,7 @@ export default function TaskFilterBar({
           </div>
 
           <div className="flex items-center gap-1.5 bg-paper-card border border-sky-soft rounded-xl px-3 py-1 text-xs shadow-xs">
-            <Star className="w-3.5 h-3.5 text-sky-deep fill-sky-deep" />
+            <SlidersHorizontal className="w-3.5 h-3.5 text-sky-deep" />
             <select
               value={selectedPriority}
               onChange={(e) => onPriorityChange(e.target.value)}

@@ -415,7 +415,7 @@ export default function TaskList({
                 : isDragOver
                 ? 'border-t-4 border-t-sky-deep bg-sky-light/40 shadow-xs'
                 : task.completed
-                ? 'bg-sky-light/40 border-2 border-sky-DEFAULT opacity-80'
+                ? 'bg-sky-light/40 border-2 border-sky-DEFAULT opacity-60'
                 : 'bg-paper-card border-2 border-sky-DEFAULT'
             }`}
           >

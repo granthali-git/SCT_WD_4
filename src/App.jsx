@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Settings,
   BarChart3,
@@ -96,17 +96,16 @@ tomorrow.setHours(10, 0, 0, 0);
 const INITIAL_TASKS = [
   {
     id: '1',
-    title: 'Complete chapter review & planner notes',
+    title: 'Focus on studies',
     category: 'Study',
     priority: 'High',
-    dueDate: yesterday.toISOString().slice(0, 16),
-    repeat: 'none',
+    dueDate: todayLater.toISOString().slice(0, 16),
+    repeat: 'daily',
     completed: false,
     createdAt: new Date().toISOString(),
     subtasks: [
       { id: '1-1', text: 'Read Biology chapter 4 summary', done: true },
-      { id: '1-2', text: 'Highlight key diagrams & terms', done: true },
-      { id: '1-3', text: 'Draft flashcards for review', done: false },
+      { id: '1-2', text: 'Highlight key diagrams & terms', done: false },
     ],
   },
   {
@@ -159,6 +158,8 @@ function App() {
   const [selectedPriority, setSelectedPriority] = useState('All');
   const [streak, setStreak] = useState(() => getStreak());
   const [isShortcutsModalOpen, setIsShortcutsModalOpen] = useState(false);
+  const [transitioningIds, setTransitioningIds] = useState(new Set());
+  const recurringTimerRef = useRef({});
 
   // Global Keyboard Shortcuts Listener
   useEffect(() => {
@@ -239,32 +240,63 @@ function App() {
   };
 
   const handleToggleCompleted = (id) => {
-    setTasks((prevTasks) => {
-      const targetTask = prevTasks.find((t) => t.id === id);
-      if (!targetTask) return prevTasks;
+    const targetTask = tasks.find((t) => t.id === id);
+    if (!targetTask) return;
 
-      const isMarkingComplete = !targetTask.completed;
-      const isRecurring = targetTask.repeat && targetTask.repeat !== 'none';
+    const isMarkingComplete = !targetTask.completed;
+    const isRecurring = targetTask.repeat && targetTask.repeat.toLowerCase() !== 'none';
 
-      if (isMarkingComplete && isRecurring) {
-        // Roll due date forward in-place instead of creating a duplicate card!
-        const nextDueDate = getNextDueDate(targetTask.dueDate, targetTask.repeat);
-        return prevTasks.map((t) =>
-          t.id === id
-            ? {
-                ...t,
-                dueDate: nextDueDate,
-                completed: false, // Reset completion state for next cycle
-                subtasks: (t.subtasks || []).map((sub) => ({ ...sub, done: false })),
-              }
-            : t
-        );
+    if (isMarkingComplete && isRecurring) {
+      if (recurringTimerRef.current[id]) {
+        clearTimeout(recurringTimerRef.current[id]);
       }
 
-      return prevTasks.map((t) =>
-        t.id === id ? { ...t, completed: !t.completed } : t
+      setTransitioningIds((prev) => new Set(prev).add(id));
+
+      // 1. Immediately update task to completed: true visually
+      setTasks((prevTasks) =>
+        prevTasks.map((t) => (t.id === id ? { ...t, completed: true } : t))
       );
-    });
+
+      // 2. Schedule date advancement and completed: false reset after brief delay (700ms)
+      recurringTimerRef.current[id] = setTimeout(() => {
+        setTasks((latestTasks) =>
+          latestTasks.map((t) => {
+            if (t.id !== id) return t;
+            const nextDueDate = getNextDueDate(t.dueDate, t.repeat);
+            return {
+              ...t,
+              completed: false,
+              dueDate: nextDueDate,
+              subtasks: (t.subtasks || []).map((sub) => ({ ...sub, done: false })),
+            };
+          })
+        );
+
+        setTransitioningIds((prev) => {
+          const next = new Set(prev);
+          next.delete(id);
+          return next;
+        });
+        delete recurringTimerRef.current[id];
+      }, 700);
+
+      return;
+    }
+
+    if (recurringTimerRef.current[id]) {
+      clearTimeout(recurringTimerRef.current[id]);
+      delete recurringTimerRef.current[id];
+      setTransitioningIds((prev) => {
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
+    }
+
+    setTasks((prevTasks) =>
+      prevTasks.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
+    );
   };
 
   const handleToggleSubtask = (taskId, subtaskId) => {
@@ -315,7 +347,7 @@ function App() {
   };
 
   const overdueTasks = tasks.filter((t) => {
-    if (!t.dueDate || t.completed) return false;
+    if (!t.dueDate || (t.completed && !transitioningIds.has(t.id))) return false;
     const d = new Date(t.dueDate);
     return !isNaN(d.getTime()) && d < todayStart;
   });
@@ -345,7 +377,7 @@ function App() {
       const d = new Date(t.dueDate);
       if (isNaN(d.getTime()) || d <= todayEnd) return false;
     } else if (activeTab === 'overdue') {
-      if (!t.dueDate || t.completed) return false;
+      if (!t.dueDate || (t.completed && !transitioningIds.has(t.id))) return false;
       const d = new Date(t.dueDate);
       if (isNaN(d.getTime()) || d >= todayStart) return false;
     }
